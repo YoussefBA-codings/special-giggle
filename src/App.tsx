@@ -16,24 +16,15 @@ import { MethodologyPage } from './pages/MethodologyPage';
 const THEME_KEY = 'immoinsight-theme';
 
 function useTheme() {
-  const [isDark, setIsDark] = useState(() =>
-    document.documentElement.classList.contains('dark')
-  );
-
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
   const toggle = useCallback(() => {
     setIsDark((prev) => {
       const next = !prev;
-      if (next) {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem(THEME_KEY, 'dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem(THEME_KEY, 'light');
-      }
+      document.documentElement.classList.toggle('dark', next);
+      localStorage.setItem(THEME_KEY, next ? 'dark' : 'light');
       return next;
     });
   }, []);
-
   return { isDark, toggle };
 }
 
@@ -71,9 +62,6 @@ export default function App() {
       .catch((err: Error) => { setError(err.message); setLoading(false); });
   }, []);
 
-  // Close mobile sidebar on page change
-  useEffect(() => { setMobileSidebarOpen(false); }, [page]);
-
   if (error) {
     return (
       <div className="min-h-screen page-bg flex items-center justify-center p-6">
@@ -84,8 +72,8 @@ export default function App() {
           <h2 className="t-primary font-bold mb-2">Données introuvables</h2>
           <p className="text-sm t-secondary mb-1">{error}</p>
           <p className="text-xs t-muted mt-2">
-            Placez <code className="bg-slate-100 dark:bg-slate-800 px-1 rounded text-slate-600 dark:text-slate-400">cities.final.json</code> dans{' '}
-            <code className="bg-slate-100 dark:bg-slate-800 px-1 rounded text-slate-600 dark:text-slate-400">public/data/</code>
+            Placez <code className="bg-slate-100 dark:bg-slate-800 px-1 rounded">cities.final.json</code> dans{' '}
+            <code className="bg-slate-100 dark:bg-slate-800 px-1 rounded">public/data/</code>
           </p>
           <button onClick={() => window.location.reload()} className="btn-primary mt-4 flex items-center gap-2 mx-auto">
             <RefreshCw size={13} /> Réessayer
@@ -96,8 +84,9 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-screen page-bg overflow-hidden">
-      {/* Mobile sidebar overlay */}
+    // Root: relative so the fixed sidebar spacer + fixed sidebar line up
+    <div className="flex min-h-screen page-bg">
+      {/* Mobile overlay backdrop */}
       {mobileSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
@@ -105,42 +94,38 @@ export default function App() {
         />
       )}
 
+      {/* Sidebar renders a fixed panel + a desktop spacer div internally */}
       <Sidebar
         page={page}
-        onNavigate={setPage}
+        onNavigate={(p) => { setPage(p); setMobileSidebarOpen(false); }}
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed((p) => !p)}
         mobileOpen={mobileSidebarOpen}
         onMobileClose={() => setMobileSidebarOpen(false)}
       />
 
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      {/* Main content — flex-1 fills remaining space after spacer */}
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
         <Header
           page={page}
           totalCities={cities.length}
           loading={loading}
           globalSearch={globalSearch}
-          onGlobalSearch={(q) => {
-            setGlobalSearch(q);
-            if (q.trim()) setPage('explorer');
-          }}
+          onGlobalSearch={(q) => { setGlobalSearch(q); if (q.trim()) setPage('explorer'); }}
           isDark={isDark}
           onToggleTheme={toggleTheme}
           onOpenMobileSidebar={() => setMobileSidebarOpen(true)}
         />
-
         <main className="flex-1 overflow-y-auto page-bg">
-          {loading ? (
-            <Skeleton />
-          ) : (
+          {loading ? <Skeleton /> : (
             <>
-              {page === 'dashboard' && <DashboardPage cities={cities} onCityClick={setSelectedCity} onNavigate={(p) => setPage(p as Page)} />}
+              {page === 'dashboard'     && <DashboardPage    cities={cities} onCityClick={setSelectedCity} onNavigate={(p) => setPage(p as Page)} />}
               {page === 'opportunities' && <OpportunitiesPage cities={cities} onCityClick={setSelectedCity} />}
-              {page === 'explorer' && <CityExplorerPage cities={cities} globalSearch={globalSearch} onCityClick={setSelectedCity} />}
-              {page === 'compare' && <ComparePage cities={cities} />}
-              {page === 'profiles' && <InvestorProfilesPage cities={cities} onCityClick={setSelectedCity} />}
-              {page === 'riskmap' && <RiskMapPage cities={cities} isDark={isDark} onCityClick={setSelectedCity} />}
-              {page === 'methodology' && <MethodologyPage />}
+              {page === 'explorer'      && <CityExplorerPage  cities={cities} globalSearch={globalSearch} onCityClick={setSelectedCity} />}
+              {page === 'compare'       && <ComparePage       cities={cities} />}
+              {page === 'profiles'      && <InvestorProfilesPage cities={cities} onCityClick={setSelectedCity} />}
+              {page === 'riskmap'       && <RiskMapPage       cities={cities} isDark={isDark} onCityClick={setSelectedCity} />}
+              {page === 'methodology'   && <MethodologyPage />}
             </>
           )}
         </main>
