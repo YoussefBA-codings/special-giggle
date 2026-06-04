@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronUp, ChevronDown, ChevronsUpDown, ExternalLink } from 'lucide-react';
 import type { CityWithScore, SortConfig, PropertyType } from '../types/city';
 import { formatEur, formatPct, getYieldBadge } from '../lib/calculations';
@@ -91,6 +91,11 @@ function getCellValue(city: CityWithScore, key: ColumnKey): string | number {
 export function CitiesTable({ cities, propertyView, onCityClick }: Props) {
   const [sort, setSort] = useState<SortConfig>({ key: 'score', direction: 'desc' });
   const [page, setPage] = useState(1);
+
+  // Reset to page 1 whenever the city list or view changes
+  useEffect(() => {
+    setPage(1);
+  }, [cities, propertyView]);
 
   const visibleCols = COLUMNS.filter((c) => c.show(propertyView));
 

@@ -46,8 +46,8 @@ export default function App() {
   const [cities, setCities] = useState<CityWithScore[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  // Single source of truth: filters.propertyType drives both the view switcher and the data filter
   const [filters, setFilters] = useState<Filters>(loadFilters);
-  const [propertyView, setPropertyView] = useState<PropertyType | 'all'>('all');
   const [selectedCity, setSelectedCity] = useState<CityWithScore | null>(null);
   const [tab, setTab] = useState<Tab>('table');
 
@@ -81,18 +81,27 @@ export default function App() {
       }
       if (filters.department && c.department !== filters.department) return false;
 
-      const apt = c.prices.apartment;
-      const house = c.prices.house;
+      const { apartment: apt, house } = c.prices;
 
-      if (filters.propertyType === 'apartment' || filters.propertyType === 'all') {
+      if (filters.propertyType === 'apartment') {
         if (filters.minYield > 0 && apt.grossYield < filters.minYield) return false;
         if (filters.maxPrice > 0 && apt.average > filters.maxPrice) return false;
         if (filters.minRent > 0 && apt.rent < filters.minRent) return false;
-      }
-      if (filters.propertyType === 'house') {
+      } else if (filters.propertyType === 'house') {
         if (filters.minYield > 0 && house.grossYield < filters.minYield) return false;
         if (filters.maxPrice > 0 && house.average > filters.maxPrice) return false;
         if (filters.minRent > 0 && house.rent < filters.minRent) return false;
+      } else {
+        // 'all': keep city if it satisfies filters for EITHER property type
+        const aptOk =
+          (filters.minYield === 0 || apt.grossYield >= filters.minYield) &&
+          (filters.maxPrice === 0 || apt.average <= filters.maxPrice) &&
+          (filters.minRent === 0 || apt.rent >= filters.minRent);
+        const houseOk =
+          (filters.minYield === 0 || house.grossYield >= filters.minYield) &&
+          (filters.maxPrice === 0 || house.average <= filters.maxPrice) &&
+          (filters.minRent === 0 || house.rent >= filters.minRent);
+        if (!aptOk && !houseOk) return false;
       }
 
       return true;
@@ -101,12 +110,10 @@ export default function App() {
 
   function handleFiltersChange(f: Filters) {
     setFilters(f);
-    if (f.propertyType !== 'all') setPropertyView(f.propertyType);
   }
 
   function handleReset() {
     setFilters(DEFAULT_FILTERS);
-    setPropertyView('all');
   }
 
   if (loading) {
@@ -142,6 +149,9 @@ export default function App() {
     );
   }
 
+  // propertyType from filters is the single source of truth for the view
+  const propertyView = filters.propertyType;
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
@@ -154,16 +164,16 @@ export default function App() {
             <p className="text-xs text-slate-400 mt-0.5">Île-de-France · {cities.length} villes analysées</p>
           </div>
 
-          {/* Property view switcher */}
+          {/* Property view switcher — updates filters.propertyType directly */}
           <div className="flex items-center gap-1 border border-slate-200 rounded-lg p-0.5 bg-slate-50">
-            {[
-              { value: 'all', label: 'Tous', icon: null },
-              { value: 'apartment', label: 'Appt', icon: <Building2 size={13} /> },
-              { value: 'house', label: 'Maison', icon: <Home size={13} /> },
-            ].map((opt) => (
+            {([
+              { value: 'all' as const, label: 'Tous', icon: null },
+              { value: 'apartment' as const, label: 'Appt', icon: <Building2 size={13} /> },
+              { value: 'house' as const, label: 'Maison', icon: <Home size={13} /> },
+            ] as { value: PropertyType | 'all'; label: string; icon: React.ReactNode }[]).map((opt) => (
               <button
                 key={opt.value}
-                onClick={() => setPropertyView(opt.value as PropertyType | 'all')}
+                onClick={() => setFilters((prev) => ({ ...prev, propertyType: opt.value }))}
                 className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
                   propertyView === opt.value
                     ? 'bg-white text-blue-700 shadow-sm font-semibold'
@@ -200,7 +210,7 @@ export default function App() {
           ))}
         </div>
 
-        {/* Filters (always visible) */}
+        {/* Filters */}
         <FiltersBar
           filters={filters}
           departments={departments}
