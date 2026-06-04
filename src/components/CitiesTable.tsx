@@ -37,7 +37,7 @@ const COLUMNS: Column[] = [
   { key: 'score', label: 'Score', show: () => true },
 ];
 
-function YieldBadge({ value }: { value: number }) {
+function YieldBadge({ value }: { value: number | null | undefined }) {
   const badge = getYieldBadge(value);
   return (
     <div className="flex items-center gap-1.5">
@@ -78,12 +78,12 @@ function getCellValue(city: CityWithScore, key: ColumnKey): string | number {
     case 'city': return city.city;
     case 'department': return city.department;
     case 'postalCode': return city.postalCode;
-    case 'aptPrice': return city.prices.apartment.average;
-    case 'aptRent': return city.prices.apartment.rent;
-    case 'aptYield': return city.prices.apartment.grossYield;
-    case 'housePrice': return city.prices.house.average;
-    case 'houseRent': return city.prices.house.rent;
-    case 'houseYield': return city.prices.house.grossYield;
+    case 'aptPrice': return city.prices.apartment.average ?? 0;
+    case 'aptRent': return city.prices.apartment.rent ?? 0;
+    case 'aptYield': return city.prices.apartment.grossYield ?? 0;
+    case 'housePrice': return city.prices.house.average ?? 0;
+    case 'houseRent': return city.prices.house.rent ?? 0;
+    case 'houseYield': return city.prices.house.grossYield ?? 0;
     case 'score': return city.scoreApartment;
   }
 }

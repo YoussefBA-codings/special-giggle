@@ -43,10 +43,10 @@ export function StatsCards({ cities }: Props) {
   const avgRent = avg(cities.map((c) => c.prices.all.rent));
 
   const bestApt = cities.reduce((best, c) =>
-    c.prices.apartment.grossYield > best.prices.apartment.grossYield ? c : best,
+    (c.prices.apartment.grossYield ?? 0) > (best.prices.apartment.grossYield ?? 0) ? c : best,
   );
   const bestHouse = cities.reduce((best, c) =>
-    c.prices.house.grossYield > best.prices.house.grossYield ? c : best,
+    (c.prices.house.grossYield ?? 0) > (best.prices.house.grossYield ?? 0) ? c : best,
   );
 
   return (

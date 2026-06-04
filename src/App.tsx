@@ -83,24 +83,31 @@ export default function App() {
 
       const { apartment: apt, house } = c.prices;
 
+      const aptYield = apt.grossYield ?? 0;
+      const aptPrice = apt.average ?? 0;
+      const aptRent = apt.rent ?? 0;
+      const houseYield = house.grossYield ?? 0;
+      const housePrice = house.average ?? 0;
+      const houseRent = house.rent ?? 0;
+
       if (filters.propertyType === 'apartment') {
-        if (filters.minYield > 0 && apt.grossYield < filters.minYield) return false;
-        if (filters.maxPrice > 0 && apt.average > filters.maxPrice) return false;
-        if (filters.minRent > 0 && apt.rent < filters.minRent) return false;
+        if (filters.minYield > 0 && aptYield < filters.minYield) return false;
+        if (filters.maxPrice > 0 && aptPrice > filters.maxPrice) return false;
+        if (filters.minRent > 0 && aptRent < filters.minRent) return false;
       } else if (filters.propertyType === 'house') {
-        if (filters.minYield > 0 && house.grossYield < filters.minYield) return false;
-        if (filters.maxPrice > 0 && house.average > filters.maxPrice) return false;
-        if (filters.minRent > 0 && house.rent < filters.minRent) return false;
+        if (filters.minYield > 0 && houseYield < filters.minYield) return false;
+        if (filters.maxPrice > 0 && housePrice > filters.maxPrice) return false;
+        if (filters.minRent > 0 && houseRent < filters.minRent) return false;
       } else {
         // 'all': keep city if it satisfies filters for EITHER property type
         const aptOk =
-          (filters.minYield === 0 || apt.grossYield >= filters.minYield) &&
-          (filters.maxPrice === 0 || apt.average <= filters.maxPrice) &&
-          (filters.minRent === 0 || apt.rent >= filters.minRent);
+          (filters.minYield === 0 || aptYield >= filters.minYield) &&
+          (filters.maxPrice === 0 || (aptPrice > 0 && aptPrice <= filters.maxPrice)) &&
+          (filters.minRent === 0 || aptRent >= filters.minRent);
         const houseOk =
-          (filters.minYield === 0 || house.grossYield >= filters.minYield) &&
-          (filters.maxPrice === 0 || house.average <= filters.maxPrice) &&
-          (filters.minRent === 0 || house.rent >= filters.minRent);
+          (filters.minYield === 0 || houseYield >= filters.minYield) &&
+          (filters.maxPrice === 0 || (housePrice > 0 && housePrice <= filters.maxPrice)) &&
+          (filters.minRent === 0 || houseRent >= filters.minRent);
         if (!aptOk && !houseOk) return false;
       }
 

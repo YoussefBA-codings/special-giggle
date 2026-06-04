@@ -59,25 +59,25 @@ export function TopOpportunities({ cities, onCityClick }: Props) {
   const top10 = <T,>(arr: T[], fn: (item: T) => number) =>
     [...arr].sort((a, b) => fn(b) - fn(a)).slice(0, 10);
 
-  const topAptYield = top10(cities, (c) => c.prices.apartment.grossYield).map((c) => ({
+  const topAptYield = top10(cities, (c) => c.prices.apartment.grossYield ?? 0).map((c) => ({
     city: c,
     value: formatPct(c.prices.apartment.grossYield),
     sub: `Dép. ${c.department} · ${formatEur(c.prices.apartment.average)}/m²`,
   }));
 
-  const topHouseYield = top10(cities, (c) => c.prices.house.grossYield).map((c) => ({
+  const topHouseYield = top10(cities, (c) => c.prices.house.grossYield ?? 0).map((c) => ({
     city: c,
     value: formatPct(c.prices.house.grossYield),
     sub: `Dép. ${c.department} · ${formatEur(c.prices.house.average)}/m²`,
   }));
 
-  const topCheap = top10(cities, (c) => -(c.prices.apartment.average || Infinity)).map((c) => ({
+  const topCheap = top10(cities, (c) => -(c.prices.apartment.average ?? Infinity)).map((c) => ({
     city: c,
     value: formatEur(c.prices.apartment.average) + '/m²',
     sub: `Rdt ${formatPct(c.prices.apartment.grossYield)} · Dép. ${c.department}`,
   }));
 
-  const topRent = top10(cities, (c) => c.prices.all.rent).map((c) => ({
+  const topRent = top10(cities, (c) => c.prices.all.rent ?? 0).map((c) => ({
     city: c,
     value: formatEur(c.prices.all.rent) + '/m²/mois',
     sub: `Dép. ${c.department} · ${c.postalCode}`,

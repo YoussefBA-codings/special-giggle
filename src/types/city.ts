@@ -1,13 +1,13 @@
 export interface PropertyStats {
-  average: number;
-  min: number;
-  max: number;
-  rent: number;
-  grossYield: number;
+  average: number | null;
+  min: number | null;
+  max: number | null;
+  rent: number | null;
+  grossYield: number | null;
 }
 
 export interface AllStats {
-  rent: number;
+  rent: number | null;
 }
 
 export interface CityPrices {

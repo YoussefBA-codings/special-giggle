@@ -23,33 +23,35 @@ function ChartCard({ title, children }: { title: string; children: React.ReactNo
 export function ChartsSection({ cities }: Props) {
   // Top 15 rendement appartement pour bar chart
   const top15Apt = [...cities]
-    .sort((a, b) => b.prices.apartment.grossYield - a.prices.apartment.grossYield)
+    .filter((c) => (c.prices.apartment.grossYield ?? 0) > 0)
+    .sort((a, b) => (b.prices.apartment.grossYield ?? 0) - (a.prices.apartment.grossYield ?? 0))
     .slice(0, 15)
     .map((c) => ({
       name: c.city.length > 10 ? c.city.slice(0, 10) + '…' : c.city,
       fullName: c.city,
-      appt: c.prices.apartment.grossYield,
-      maison: c.prices.house.grossYield,
+      appt: c.prices.apartment.grossYield ?? 0,
+      maison: c.prices.house.grossYield ?? 0,
     }));
 
   // Scatter : prix m² vs loyer (appartements)
   const scatterData = cities
-    .filter((c) => c.prices.apartment.average > 0 && c.prices.apartment.rent > 0)
+    .filter((c) => (c.prices.apartment.average ?? 0) > 0 && (c.prices.apartment.rent ?? 0) > 0)
     .map((c) => ({
-      x: c.prices.apartment.average,
-      y: c.prices.apartment.rent,
+      x: c.prices.apartment.average as number,
+      y: c.prices.apartment.rent as number,
       name: c.city,
-      yield: c.prices.apartment.grossYield,
+      yield: c.prices.apartment.grossYield ?? 0,
     }));
 
   // Rendement moyen par département
-  const deptMap = new Map<string, number[]>();
+  const deptMap = new Map<string, (number | null | undefined)[]>();
   cities.forEach((c) => {
     if (!deptMap.has(c.department)) deptMap.set(c.department, []);
     deptMap.get(c.department)!.push(c.prices.apartment.grossYield);
   });
   const deptData = Array.from(deptMap.entries())
     .map(([dept, yields]) => ({ dept: `Dép. ${dept}`, yield: parseFloat(avg(yields).toFixed(2)) }))
+    .filter((d) => d.yield > 0)
     .sort((a, b) => b.yield - a.yield);
 
   // Distribution des rendements (buckets)
@@ -66,6 +68,7 @@ export function ChartsSection({ cities }: Props) {
   ];
   cities.forEach((c) => {
     const y = c.prices.apartment.grossYield;
+    if (y == null || y === 0) return;
     if (y < 2) buckets[0].count++;
     else if (y < 3) buckets[1].count++;
     else if (y < 4) buckets[2].count++;
@@ -171,10 +174,14 @@ export function ChartsSection({ cities }: Props) {
               <Tooltip formatter={(v) => [`${v} ville${Number(v) > 1 ? 's' : ''}`, 'Nombre de villes']} />
               <Bar dataKey="count" name="Nombre de villes" radius={[3, 3, 0, 0]}>
                 {buckets.map((entry, i) => {
-                  const y = parseFloat(entry.range);
-                  const fill = isNaN(y)
-                    ? (entry.range.startsWith('>') ? '#10b981' : '#ef4444')
-                    : y >= 7 ? '#10b981' : y >= 5 ? '#3b82f6' : y >= 3 ? '#f59e0b' : '#ef4444';
+                  const range = entry.range;
+                  const fill =
+                    range.startsWith('>') ? '#10b981' :
+                    range.startsWith('<') ? '#ef4444' :
+                    range.startsWith('7') || range.startsWith('8') ? '#10b981' :
+                    range.startsWith('5') || range.startsWith('6') ? '#3b82f6' :
+                    range.startsWith('3') || range.startsWith('4') ? '#f59e0b' :
+                    '#ef4444';
                   return <Cell key={i} fill={fill} />;
                 })}
               </Bar>

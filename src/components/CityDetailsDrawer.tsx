@@ -28,7 +28,7 @@ function Section({ title, icon, children }: { title: string; icon: React.ReactNo
   );
 }
 
-function YieldBadge({ value }: { value: number }) {
+function YieldBadge({ value }: { value: number | null | undefined }) {
   const badge = getYieldBadge(value);
   return (
     <span
@@ -147,8 +147,8 @@ export function CityDetailsDrawer({ city, onClose }: Props) {
           <Section title="Comparatif rendement" icon={<TrendingUp size={14} />}>
             <div className="mt-2 space-y-3">
               {[
-                { label: 'Appartement', value: city.prices.apartment.grossYield },
-                { label: 'Maison', value: city.prices.house.grossYield },
+                { label: 'Appartement', value: city.prices.apartment.grossYield ?? 0 },
+                { label: 'Maison', value: city.prices.house.grossYield ?? 0 },
               ].map(({ label, value }) => (
                 <div key={label}>
                   <div className="flex justify-between text-xs text-slate-500 mb-1">

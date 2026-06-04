@@ -11,11 +11,11 @@ export function calculateInvestorScore(
   allCities: City[],
 ): number {
   const prop = city.prices[propertyType];
-  if (!prop || prop.average === 0) return 0;
+  if (!prop || !prop.average || !prop.grossYield) return 0;
 
-  const yields = allCities.map((c) => c.prices[propertyType].grossYield).filter((v) => v > 0);
-  const prices = allCities.map((c) => c.prices[propertyType].average).filter((v) => v > 0);
-  const rents = allCities.map((c) => c.prices[propertyType].rent).filter((v) => v > 0);
+  const yields = allCities.map((c) => c.prices[propertyType].grossYield).filter((v) => v != null && v > 0) as number[];
+  const prices = allCities.map((c) => c.prices[propertyType].average).filter((v) => v != null && v > 0) as number[];
+  const rents = allCities.map((c) => c.prices[propertyType].rent).filter((v) => v != null && v > 0) as number[];
 
   const minYield = Math.min(...yields);
   const maxYield = Math.max(...yields);
@@ -24,10 +24,10 @@ export function calculateInvestorScore(
   const minRent = Math.min(...rents);
   const maxRent = Math.max(...rents);
 
-  const yieldScore = normalize(prop.grossYield, minYield, maxYield);
+  const yieldScore = normalize(prop.grossYield ?? 0, minYield, maxYield);
   // inverted: lower price = higher score
-  const priceScore = 1 - normalize(prop.average, minPrice, maxPrice);
-  const rentScore = normalize(prop.rent, minRent, maxRent);
+  const priceScore = 1 - normalize(prop.average ?? 0, minPrice, maxPrice);
+  const rentScore = normalize(prop.rent ?? 0, minRent, maxRent);
 
   const score = yieldScore * 0.6 + priceScore * 0.25 + rentScore * 0.15;
   return Math.round(score * 100);
@@ -41,36 +41,39 @@ export function enrichCities(cities: City[]): CityWithScore[] {
   }));
 }
 
-export function getYieldBadge(yield_: number): {
+export function getYieldBadge(yield_: number | null | undefined): {
   label: string;
   color: string;
   bg: string;
 } {
+  if (yield_ == null || isNaN(yield_)) return { label: 'N/A', color: '#94a3b8', bg: '#f1f5f9' };
   if (yield_ >= 7) return { label: 'Excellent', color: '#15803d', bg: '#dcfce7' };
   if (yield_ >= 5) return { label: 'Bon', color: '#1d4ed8', bg: '#dbeafe' };
   if (yield_ >= 3) return { label: 'Moyen', color: '#b45309', bg: '#fef3c7' };
   return { label: 'Faible', color: '#b91c1c', bg: '#fee2e2' };
 }
 
-export function avg(nums: number[]): number {
-  const valid = nums.filter((n) => n > 0);
+export function avg(nums: (number | null | undefined)[]): number {
+  const valid = nums.filter((n): n is number => n != null && !isNaN(n) && n > 0);
   if (valid.length === 0) return 0;
   return valid.reduce((a, b) => a + b, 0) / valid.length;
 }
 
-export function formatEur(value: number): string {
+export function formatEur(value: number | null | undefined): string {
+  if (value == null || isNaN(value) || value === 0) return '—';
   return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(value);
 }
 
-export function formatPct(value: number): string {
+export function formatPct(value: number | null | undefined): string {
+  if (value == null || isNaN(value)) return '—';
   return `${value.toFixed(2)}%`;
 }
 
 export function getCityAnalysis(city: City): string {
-  const aptYield = city.prices.apartment.grossYield;
-  const houseYield = city.prices.house.grossYield;
-  const aptPrice = city.prices.apartment.average;
-  const housePrice = city.prices.house.average;
+  const aptYield = city.prices.apartment.grossYield ?? 0;
+  const houseYield = city.prices.house.grossYield ?? 0;
+  const aptPrice = city.prices.apartment.average ?? 0;
+  const housePrice = city.prices.house.average ?? 0;
 
   const best = aptYield >= houseYield ? 'appartements' : 'maisons';
   const bestYield = Math.max(aptYield, houseYield);
