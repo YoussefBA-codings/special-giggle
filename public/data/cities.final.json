@@ -1,0 +1,82 @@
+[
+  {
+    "city": "Beaumont-du-Gâtinais",
+    "postalCode": "77890",
+    "department": "77",
+    "url": "https://www.meilleursagents.com/prix-immobilier/beaumont-du-gatinais-77890/",
+    "prices": {
+      "apartment": { "average": 1047, "min": 785, "max": 1570, "rent": 12.1, "grossYield": 13.87 },
+      "house": { "average": 1117, "min": 356, "max": 1938, "rent": 11.9, "grossYield": 12.78 },
+      "all": { "rent": 11.9 }
+    },
+    "geo": { "inseeCode": "77027", "lat": 48.1435, "lon": 2.4896, "population": 1129 },
+    "insee": { "population": 1136, "populationGrowth6Y": -1.8, "medianIncome": 25170, "vacancyRate": 13.8, "tenantShare": 18.6, "ownerShare": 81.4, "density": 68.5, "socioEconomicScore": 26, "growthScore": 25, "rentalMarketScore": 7 },
+    "transport": { "nearestStation": { "name": "Malesherbes", "type": "RER", "distanceKm": 17.91 }, "stationsWithin5Km": 0, "hasMetro": false, "hasRer": true, "hasTrain": true, "hasTram": false, "transportScore": 8, "transportInvestmentScore": 2, "classification": "ISOLATED", "transportInsights": { "summary": "Commune très mal desservie, gare la plus proche à 17.9 km." } },
+    "investment": { "profile": "YIELD_TRAP", "riskLevel": "VERY_HIGH", "globalScore": 26, "cashflowScore": 45, "beginnerScore": 22, "longTermScore": 25, "patrimonialScore": 15, "rentalDemandScore": 5, "riskScore": 82, "yieldScore": 100, "priceAccessibilityScore": 100, "rentPowerScore": 2, "socioScore": 26, "growthScore": 25, "transportScore": 2, "bestPropertyType": "apartment", "recommendation": "ONLY_EXPERIENCED" },
+    "insights": { "tags": ["Très haut rendement apparent", "Prix très accessible", "Vacance élevée", "Commune isolée", "Rendement potentiellement piège"], "strengths": ["Rendement brut très élevé (13.9%)", "Prix au m² très accessible"], "weaknesses": ["Vacance logement élevée (13.8%)", "Transport très faible — commune isolée"], "verdict": "Rendement très attractif sur le papier mais la combinaison vacance élevée + isolement géographique en fait un investissement réservé aux profils expérimentés.", "shortVerdict": "Très rentable mais risqué", "investorProfile": "Investisseur expérimenté uniquement", "contextFlags": { "priceVsDataset": "bottom_20", "yieldVsDataset": "top_20", "rentVsDataset": "bottom_20", "growthVsDataset": "middle", "vacancyVsDataset": "top_20", "transportVsDataset": "bottom_20", "incomeVsDataset": "bottom_20" } }
+  },
+  {
+    "city": "Versailles",
+    "postalCode": "78000",
+    "department": "78",
+    "url": "https://www.meilleursagents.com/prix-immobilier/versailles-78000/",
+    "prices": {
+      "apartment": { "average": 7200, "min": 5400, "max": 10800, "rent": 22.5, "grossYield": 3.75 },
+      "house": { "average": 7600, "min": 5700, "max": 11400, "rent": 19.8, "grossYield": 3.12 },
+      "all": { "rent": 21.5 }
+    },
+    "geo": { "inseeCode": "78646", "lat": 48.8014, "lon": 2.1301, "population": 86000 },
+    "insee": { "population": 86000, "populationGrowth6Y": 1.2, "medianIncome": 42000, "vacancyRate": 5.2, "tenantShare": 55.0, "ownerShare": 45.0, "density": 3800, "socioEconomicScore": 82, "growthScore": 62, "rentalMarketScore": 78 },
+    "transport": { "nearestStation": { "name": "Versailles-Rive-Gauche", "type": "RER", "distanceKm": 0.5 }, "stationsWithin5Km": 3, "hasMetro": false, "hasRer": true, "hasTrain": true, "hasTram": false, "transportScore": 92, "transportInvestmentScore": 88, "classification": "EXCELLENT", "transportInsights": { "summary": "Excellente desserte : 3 gares RER/Train dans un rayon de 5 km." } },
+    "investment": { "profile": "PATRIMONIAL_SAFE", "riskLevel": "LOW", "globalScore": 72, "cashflowScore": 28, "beginnerScore": 65, "longTermScore": 80, "patrimonialScore": 90, "rentalDemandScore": 85, "riskScore": 12, "yieldScore": 22, "priceAccessibilityScore": 5, "rentPowerScore": 90, "socioScore": 82, "growthScore": 62, "transportScore": 88, "bestPropertyType": "apartment", "recommendation": "GOOD_TO_ANALYZE" },
+    "insights": { "tags": ["Valeur patrimoniale forte", "Excellent transport", "Marché locatif tendu", "Prix élevés"], "strengths": ["Revenu médian très élevé (42k€)", "Excellent score transport", "Vacance très faible"], "weaknesses": ["Rendement faible (3.75%)", "Prix d'entrée élevé"], "verdict": "Investissement patrimonial de référence. La protection du capital et la liquidité du marché compensent le faible rendement.", "shortVerdict": "Patrimonial premium", "investorProfile": "Investisseur patrimonial ou acheteur-vendeur", "contextFlags": { "priceVsDataset": "top_20", "yieldVsDataset": "bottom_20", "rentVsDataset": "top_20", "growthVsDataset": "middle", "vacancyVsDataset": "bottom_20", "transportVsDataset": "top_20", "incomeVsDataset": "top_20" } }
+  },
+  {
+    "city": "Meaux",
+    "postalCode": "77100",
+    "department": "77",
+    "url": "https://www.meilleursagents.com/prix-immobilier/meaux-77100/",
+    "prices": {
+      "apartment": { "average": 2650, "min": 1900, "max": 3900, "rent": 17.8, "grossYield": 8.06 },
+      "house": { "average": 3100, "min": 2300, "max": 4600, "rent": 15.5, "grossYield": 6.0 },
+      "all": { "rent": 16.8 }
+    },
+    "geo": { "inseeCode": "77284", "lat": 48.9600, "lon": 2.8834, "population": 55000 },
+    "insee": { "population": 55000, "populationGrowth6Y": 2.1, "medianIncome": 22800, "vacancyRate": 7.2, "tenantShare": 62.0, "ownerShare": 38.0, "density": 2200, "socioEconomicScore": 42, "growthScore": 58, "rentalMarketScore": 65 },
+    "transport": { "nearestStation": { "name": "Meaux", "type": "Train", "distanceKm": 1.2 }, "stationsWithin5Km": 1, "hasMetro": false, "hasRer": false, "hasTrain": true, "hasTram": false, "transportScore": 62, "transportInvestmentScore": 65, "classification": "MODERATE", "transportInsights": { "summary": "Gare SNCF à 1.2 km. Liaison Paris-Est en 30 min. Desserte convenable." } },
+    "investment": { "profile": "CASHFLOW_OPPORTUNITY", "riskLevel": "MODERATE", "globalScore": 61, "cashflowScore": 72, "beginnerScore": 55, "longTermScore": 58, "patrimonialScore": 42, "rentalDemandScore": 65, "riskScore": 42, "yieldScore": 75, "priceAccessibilityScore": 72, "rentPowerScore": 58, "socioScore": 42, "growthScore": 58, "transportScore": 65, "bestPropertyType": "apartment", "recommendation": "GOOD_TO_ANALYZE" },
+    "insights": { "tags": ["Bon rendement", "Transport correct", "Croissance positive", "Marché locatif actif"], "strengths": ["Rendement brut solide (8.1%)", "Gare SNCF Paris-Est accessible", "Croissance de population"], "weaknesses": ["Revenu médian modéré", "Marché parfois tendu"], "verdict": "Bonne opportunité cashflow avec un profil risque/rendement équilibré. La liaison Paris-Est est un atout pour la demande locative.", "shortVerdict": "Cashflow équilibré", "investorProfile": "Investisseur intermédiaire", "contextFlags": { "priceVsDataset": "middle", "yieldVsDataset": "top_20", "rentVsDataset": "middle", "growthVsDataset": "top_20", "vacancyVsDataset": "middle", "transportVsDataset": "middle", "incomeVsDataset": "bottom_20" } }
+  },
+  {
+    "city": "Cergy",
+    "postalCode": "95000",
+    "department": "95",
+    "url": "https://www.meilleursagents.com/prix-immobilier/cergy-95000/",
+    "prices": {
+      "apartment": { "average": 2950, "min": 2200, "max": 4400, "rent": 18.2, "grossYield": 7.4 },
+      "house": { "average": 3200, "min": 2400, "max": 4800, "rent": 16.0, "grossYield": 6.0 },
+      "all": { "rent": 17.5 }
+    },
+    "geo": { "inseeCode": "95127", "lat": 49.0367, "lon": 2.0676, "population": 62000 },
+    "insee": { "population": 62000, "populationGrowth6Y": 1.5, "medianIncome": 21500, "vacancyRate": 6.8, "tenantShare": 70.0, "ownerShare": 30.0, "density": 2900, "socioEconomicScore": 38, "growthScore": 55, "rentalMarketScore": 72 },
+    "transport": { "nearestStation": { "name": "Cergy-le-Haut", "type": "RER", "distanceKm": 0.8 }, "stationsWithin5Km": 4, "hasMetro": false, "hasRer": true, "hasTrain": false, "hasTram": false, "transportScore": 88, "transportInvestmentScore": 85, "classification": "EXCELLENT", "transportInsights": { "summary": "Excellent réseau RER A — 4 gares dans 5 km. Paris La Défense en 30 min." } },
+    "investment": { "profile": "CASHFLOW_OPPORTUNITY", "riskLevel": "MODERATE", "globalScore": 64, "cashflowScore": 75, "beginnerScore": 58, "longTermScore": 55, "patrimonialScore": 38, "rentalDemandScore": 72, "riskScore": 38, "yieldScore": 68, "priceAccessibilityScore": 70, "rentPowerScore": 70, "socioScore": 38, "growthScore": 55, "transportScore": 85, "bestPropertyType": "apartment", "recommendation": "GOOD_TO_ANALYZE" },
+    "insights": { "tags": ["RER A direct", "Bon rendement", "Forte demande locative", "Campus universitaire"], "strengths": ["RER A — excellente connexion Paris", "Rendement correct (7.4%)", "Fort taux de locataires (70%)"], "weaknesses": ["Revenu médian faible", "Quartiers inégaux"], "verdict": "Cergy combine une excellente desserte RER avec un rendement solide. Idéal pour viser les étudiants et jeunes actifs.", "shortVerdict": "RER + cashflow", "investorProfile": "Investisseur cherchant rentabilité + liquidité", "contextFlags": { "priceVsDataset": "middle", "yieldVsDataset": "top_20", "rentVsDataset": "middle", "growthVsDataset": "middle", "vacancyVsDataset": "middle", "transportVsDataset": "top_20", "incomeVsDataset": "bottom_20" } }
+  },
+  {
+    "city": "Saint-Denis",
+    "postalCode": "93200",
+    "department": "93",
+    "url": "https://www.meilleursagents.com/prix-immobilier/saint-denis-93200/",
+    "prices": {
+      "apartment": { "average": 3900, "min": 2900, "max": 5800, "rent": 20.2, "grossYield": 6.22 },
+      "house": { "average": 4200, "min": 3100, "max": 6300, "rent": 17.8, "grossYield": 5.09 },
+      "all": { "rent": 19.5 }
+    },
+    "geo": { "inseeCode": "93066", "lat": 48.9362, "lon": 2.3574, "population": 112000 },
+    "insee": { "population": 112000, "populationGrowth6Y": 3.5, "medianIncome": 18500, "vacancyRate": 8.1, "tenantShare": 75.0, "ownerShare": 25.0, "density": 7500, "socioEconomicScore": 28, "growthScore": 72, "rentalMarketScore": 68 },
+    "transport": { "nearestStation": { "name": "Saint-Denis", "type": "Train", "distanceKm": 0.3 }, "stationsWithin5Km": 8, "hasMetro": true, "hasRer": true, "hasTrain": true, "hasTram": true, "transportScore": 95, "transportInvestmentScore": 90, "classification": "EXCELLENT", "transportInsights": { "summary": "Hub transport majeur : Métro 13, RER B&D, Tram T1. 8 gares dans 5 km." } },
+    "investment": { "profile": "BALANCED_OPPORTUNITY", "riskLevel": "HIGH", "globalScore": 55, "cashflowScore": 62, "beginnerScore": 42, "longTermScore": 72, "patrimonialScore": 35, "rentalDemandScore": 78, "riskScore": 65, "yieldScore": 60, "priceAccessibilityScore": 55, "rentPowerScore": 72, "socioScore": 28, "growthScore": 72, "transportScore": 90, "bestPropertyType": "apartment", "recommendation": "ONLY_EXPERIENCED" },
+    "insights": { "tags": ["Transport exceptionnel", "Forte croissance", "Héritage JO 2024", "Revenu faible", "Potentiel de valorisation"], "strengths": ["Transport public exceptionnel", "Croissance de population +3.5%", "JO 2024 — valorisation continue"], "weaknesses": ["Revenu médian très faible", "Risque de vacance à surveiller"], "verdict": "Saint-Denis est un pari sur l'avenir. L'héritage des JO, le Grand Paris Express et la croissance démographique soutiennent une valorisation à long terme malgré un profil socio-éco fragile.", "shortVerdict": "Pari long terme ambitieux", "investorProfile": "Investisseur expérimenté cherchant la valorisation", "contextFlags": { "priceVsDataset": "middle", "yieldVsDataset": "middle", "rentVsDataset": "top_20", "growthVsDataset": "top_20", "vacancyVsDataset": "middle", "transportVsDataset": "top_20", "incomeVsDataset": "bottom_20" } }
+  }
+]
