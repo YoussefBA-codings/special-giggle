@@ -2,25 +2,17 @@ import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, Lege
 import type { City } from '../../types/city';
 import { n } from '../../lib/formatters';
 
-interface Props {
-  cities: City[];
-  colors?: string[];
-}
+interface Props { cities: City[]; colors?: string[]; isDark?: boolean; }
 
 const DEFAULT_COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444'];
 
 function getRadarData(cities: City[]) {
   const axes = [
-    { key: 'global', label: 'Global' },
-    { key: 'cashflow', label: 'Cashflow' },
-    { key: 'beginner', label: 'Débutant' },
-    { key: 'patrimonial', label: 'Patrimonial' },
-    { key: 'longTerm', label: 'Long terme' },
-    { key: 'safetyInverted', label: 'Sécurité' },
-    { key: 'transport', label: 'Transport' },
-    { key: 'socio', label: 'Socio-éco' },
+    { key: 'global', label: 'Global' }, { key: 'cashflow', label: 'Cashflow' },
+    { key: 'beginner', label: 'Débutant' }, { key: 'patrimonial', label: 'Patrimonial' },
+    { key: 'longTerm', label: 'Long terme' }, { key: 'safetyInverted', label: 'Sécurité' },
+    { key: 'transport', label: 'Transport' }, { key: 'socio', label: 'Socio-éco' },
   ];
-
   return axes.map(({ key, label }) => {
     const row: Record<string, string | number> = { subject: label };
     cities.forEach((c, i) => {
@@ -42,34 +34,24 @@ function getRadarData(cities: City[]) {
   });
 }
 
-export function ScoreRadar({ cities, colors = DEFAULT_COLORS }: Props) {
+export function ScoreRadar({ cities, colors = DEFAULT_COLORS, isDark = true }: Props) {
   if (cities.length === 0) return null;
   const data = getRadarData(cities);
+  const gridColor = isDark ? '#1e293b' : '#e2e8f0';
+  const tickColor = isDark ? '#64748b' : '#94a3b8';
 
   return (
-    <ResponsiveContainer width="100%" height={280}>
+    <ResponsiveContainer width="100%" height={260}>
       <RadarChart data={data}>
-        <PolarGrid stroke="#1e293b" />
-        <PolarAngleAxis
-          dataKey="subject"
-          tick={{ fill: '#64748b', fontSize: 11 }}
-        />
+        <PolarGrid stroke={gridColor} />
+        <PolarAngleAxis dataKey="subject" tick={{ fill: tickColor, fontSize: 11 }} />
         {cities.map((city, i) => (
-          <Radar
-            key={city.city}
-            name={city.city}
-            dataKey={`city${i}`}
-            stroke={colors[i % colors.length]}
-            fill={colors[i % colors.length]}
-            fillOpacity={0.15}
-            strokeWidth={2}
-          />
+          <Radar key={city.city} name={city.city} dataKey={`city${i}`}
+            stroke={colors[i % colors.length]} fill={colors[i % colors.length]} fillOpacity={0.15} strokeWidth={2} />
         ))}
         {cities.length > 1 && (
-          <Legend
-            wrapperStyle={{ fontSize: 11, paddingTop: 8 }}
-            formatter={(value) => <span style={{ color: '#94a3b8' }}>{value}</span>}
-          />
+          <Legend wrapperStyle={{ fontSize: 11, paddingTop: 8 }}
+            formatter={(value) => <span style={{ color: isDark ? '#94a3b8' : '#64748b' }}>{value}</span>} />
         )}
       </RadarChart>
     </ResponsiveContainer>
