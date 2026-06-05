@@ -1,42 +1,116 @@
+import React from 'react';
 import {
-  BarChart2, TrendingUp, Search, GitCompare, Users,
-  AlertTriangle, BookOpen, Building2, X, PanelLeftClose, PanelLeftOpen,
+  Globe, Map, Layers, Search, MapPin, Trophy, TrendingUp,
+  Percent, Building2, Star, GitCompare, BookOpen,
+  PanelLeftClose, PanelLeftOpen, X, Lightbulb, Users, Activity,
 } from 'lucide-react';
+import { useLocation, useNavigate, Link } from '../../router';
 
-export type Page = 'dashboard' | 'opportunities' | 'explorer' | 'compare' | 'profiles' | 'riskmap' | 'methodology';
+// ---------------------------------------------------------------------------
+// Nav structure
+// ---------------------------------------------------------------------------
 
 interface NavItem {
-  id: Page;
+  path: string;
   label: string;
-  desc: string;        // short description for general public
+  desc?: string;
   icon: React.ReactNode;
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { id: 'dashboard',     label: 'Vue d\'ensemble', desc: 'Résumé du marché',          icon: <BarChart2 size={18} /> },
-  { id: 'opportunities', label: 'Meilleures villes', desc: 'Top classements',         icon: <TrendingUp size={18} /> },
-  { id: 'explorer',      label: 'Explorer',         desc: 'Toutes les villes + filtres', icon: <Search size={18} /> },
-  { id: 'compare',       label: 'Comparer',         desc: '2 à 4 villes côte à côte', icon: <GitCompare size={18} /> },
-  { id: 'profiles',      label: 'Stratégies',       desc: 'Par profil investisseur',  icon: <Users size={18} /> },
-  { id: 'riskmap',       label: 'Carte des risques',desc: 'Visualisations avancées',  icon: <AlertTriangle size={18} /> },
-  { id: 'methodology',   label: 'Comment ça marche', desc: 'Explication des scores',  icon: <BookOpen size={18} /> },
+interface NavGroup {
+  label: string;
+  items: NavItem[];
+}
+
+const NAV_GROUPS: NavGroup[] = [
+  {
+    label: 'Analyse',
+    items: [
+      { path: '/',            label: 'Vue France',    desc: 'Tableau de bord national', icon: <Globe size={18} /> },
+      { path: '/regions',     label: 'Régions',       desc: '18 régions',               icon: <Map size={18} /> },
+      { path: '/departments', label: 'Départements',  desc: '96 départements',          icon: <Layers size={18} /> },
+    ],
+  },
+  {
+    label: 'Recherche',
+    items: [
+      { path: '/explorer', label: 'Explorateur',  desc: '34 746 communes',       icon: <Search size={18} /> },
+      { path: '/map',      label: 'Carte',         desc: 'Vue cartographique',    icon: <MapPin size={18} /> },
+      { path: '/risk',     label: 'Carte risques', desc: 'Rendement vs risque',   icon: <Activity size={18} /> },
+    ],
+  },
+  {
+    label: 'Classements',
+    items: [
+      { path: '/rankings/global',     label: 'Investissement équilibré', desc: 'Top · données fiables',    icon: <Trophy size={18} /> },
+      { path: '/rankings/yield',      label: 'Rendement réaliste',       desc: '4–10% · non-trap',        icon: <Percent size={18} /> },
+      { path: '/rankings/patrimonial',label: 'Patrimonial',                                               icon: <Building2 size={18} /> },
+      { path: '/rankings/beginner',   label: 'Villes débutants',                                         icon: <Star size={18} /> },
+      { path: '/rankings/low-risk',   label: 'Faible risque',                                            icon: <TrendingUp size={18} /> },
+      { path: '/opportunities',       label: 'Opportunités',             desc: '9 classements en un',     icon: <Lightbulb size={18} /> },
+    ],
+  },
+  {
+    label: 'Outils',
+    items: [
+      { path: '/compare',     label: 'Comparer',             desc: 'Jusqu\'à 4 villes',    icon: <GitCompare size={18} /> },
+      { path: '/profiles',    label: 'Profils investisseurs', desc: 'Par stratégie',        icon: <Users size={18} /> },
+      { path: '/methodology', label: 'Méthodologie',                                        icon: <BookOpen size={18} /> },
+    ],
+  },
 ];
 
+// ---------------------------------------------------------------------------
+// Active-route helper
+// ---------------------------------------------------------------------------
+
+function isActive(itemPath: string, pathname: string): boolean {
+  if (itemPath === '/') return pathname === '/';
+  return pathname === itemPath || pathname.startsWith(itemPath + '/');
+}
+
+// ---------------------------------------------------------------------------
+// Props
+// ---------------------------------------------------------------------------
+
 interface Props {
-  page: Page;
-  onNavigate: (page: Page) => void;
+  /** Legacy prop kept for compatibility — not used internally (router drives state). */
+  page?: string;
   collapsed: boolean;
   onToggle: () => void;
   mobileOpen: boolean;
   onMobileClose: () => void;
+  /** Legacy prop kept for compatibility. */
+  onNavigate?: (path: string) => void;
 }
 
-export function Sidebar({ page, onNavigate, collapsed, onToggle, mobileOpen, onMobileClose }: Props) {
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
+export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Props) {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
   const width = collapsed ? 'w-14' : 'w-60';
+
+  function handleNavClick(path: string) {
+    navigate(path);
+    onMobileClose();
+  }
 
   return (
     <>
-      {/* Sidebar panel — fixed always, overlay on mobile */}
+      {/* Mobile backdrop */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+          onClick={onMobileClose}
+          aria-hidden
+        />
+      )}
+
+      {/* Sidebar panel */}
       <aside
         className={`
           fixed top-0 left-0 h-full z-50
@@ -55,11 +129,12 @@ export function Sidebar({ page, onNavigate, collapsed, onToggle, mobileOpen, onM
             {!collapsed && (
               <div className="min-w-0">
                 <p className="text-sm font-black t-primary leading-none">ImmoInsight</p>
-                <p className="text-[10px] t-muted mt-0.5">Île-de-France</p>
+                <p className="text-[10px] t-muted mt-0.5">France — 34 746 communes</p>
               </div>
             )}
           </div>
-          {/* Mobile close X */}
+
+          {/* Mobile close button */}
           <button
             onClick={onMobileClose}
             className="md:hidden p-1.5 rounded-lg btn-ghost shrink-0"
@@ -69,36 +144,53 @@ export function Sidebar({ page, onNavigate, collapsed, onToggle, mobileOpen, onM
           </button>
         </div>
 
-        {/* Nav links */}
-        <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
-          {NAV_ITEMS.map((item) => {
-            const active = page === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => { onNavigate(item.id); onMobileClose(); }}
-                title={item.desc}
-                className={`
-                  w-full flex items-center rounded-lg transition-all duration-150 text-left group
-                  ${collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'}
-                  ${active
-                    ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/30'
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100'
-                  }
-                `}
-              >
-                <span className="shrink-0">{item.icon}</span>
-                {!collapsed && (
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold leading-tight truncate">{item.label}</p>
-                    <p className={`text-[10px] leading-tight truncate mt-0.5 ${active ? 'text-blue-100' : 't-muted'}`}>
-                      {item.desc}
-                    </p>
-                  </div>
-                )}
-              </button>
-            );
-          })}
+        {/* Nav */}
+        <nav className="flex-1 px-2 py-3 overflow-y-auto space-y-4">
+          {NAV_GROUPS.map((group) => (
+            <div key={group.label}>
+              {/* Group label — hidden when collapsed */}
+              {!collapsed && (
+                <p className="label-xs px-3 mb-1 uppercase tracking-widest t-muted">
+                  {group.label}
+                </p>
+              )}
+
+              <div className="space-y-0.5">
+                {group.items.map((item) => {
+                  const active = isActive(item.path, pathname);
+                  return (
+                    <button
+                      key={item.path}
+                      onClick={() => handleNavClick(item.path)}
+                      title={collapsed ? (item.desc ?? item.label) : item.desc}
+                      className={`
+                        w-full flex items-center rounded-lg transition-all duration-150 text-left group
+                        ${collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'}
+                        ${active
+                          ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/30'
+                          : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100'
+                        }
+                      `}
+                    >
+                      <span className="shrink-0">{item.icon}</span>
+                      {!collapsed && (
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold leading-tight truncate">
+                            {item.label}
+                          </p>
+                          {item.desc && (
+                            <p className={`text-[10px] leading-tight truncate mt-0.5 ${active ? 'text-blue-100' : 't-muted'}`}>
+                              {item.desc}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         {/* Desktop collapse toggle — pill tab on right edge */}
@@ -125,8 +217,11 @@ export function Sidebar({ page, onNavigate, collapsed, onToggle, mobileOpen, onM
         </button>
       </aside>
 
-      {/* Desktop spacer — pushes content right, mirrors sidebar width */}
+      {/* Desktop spacer — mirrors sidebar width */}
       <div className={`hidden md:block shrink-0 transition-all duration-200 ${width}`} aria-hidden />
     </>
   );
 }
+
+// Re-export Page type stub for legacy consumers (Header still imports it)
+export type Page = string;

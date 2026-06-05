@@ -1,19 +1,30 @@
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import type { City } from '../../types/city';
+import type { CommuneIndex } from '../../types/api';
 import { n } from '../../lib/formatters';
 
 interface Props {
-  cities: City[]; onCityClick?: (city: City) => void;
-  xKey?: 'yield' | 'price' | 'vacancy' | 'income';
-  yKey?: 'risk' | 'yield' | 'transport' | 'score';
+  cities: CommuneIndex[]; onCityClick?: (inseeCode: string) => void;
+  xKey?: 'yield' | 'price' | 'cashflow' | 'beginner';
+  yKey?: 'risk' | 'globalScore' | 'yieldScore' | 'patrimonial';
   title?: string; isDark?: boolean;
 }
 
 const RISK_COLORS: Record<string, string> = {
-  LOW: '#10b981', MODERATE: '#f59e0b', HIGH: '#f97316', VERY_HIGH: '#ef4444',
+  LOW: '#10b981', MEDIUM: '#f59e0b', HIGH: '#ef4444',
 };
-const X_LABELS: Record<string, string> = { yield: 'Rendement appt (%)', price: 'Prix appt (€/m²)', vacancy: 'Vacance (%)', income: 'Revenu médian (€)' };
-const Y_LABELS: Record<string, string> = { risk: 'Score risque', yield: 'Rendement (%)', transport: 'Score transport', score: 'Score global' };
+
+const X_LABELS: Record<string, string> = {
+  yield: 'Rendement appt (%)',
+  price: 'Prix appt (€/m²)',
+  cashflow: 'Score cashflow',
+  beginner: 'Score débutant',
+};
+const Y_LABELS: Record<string, string> = {
+  risk: 'Score risque',
+  globalScore: 'Score global',
+  yieldScore: 'Score rendement',
+  patrimonial: 'Score patrimonial',
+};
 
 export function ScatterYieldRisk({ cities, onCityClick, xKey = 'yield', yKey = 'risk', title, isDark = true }: Props) {
   const gridColor = isDark ? '#1e293b' : '#e2e8f0';
@@ -21,12 +32,20 @@ export function ScatterYieldRisk({ cities, onCityClick, xKey = 'yield', yKey = '
   const labelColor = isDark ? '#475569' : '#94a3b8';
 
   const data = cities
-    .filter((c) => c.investment && c.prices.apartment.grossYield != null)
+    .filter((c) => c.apartmentYield != null)
     .map((c) => ({
-      x: xKey === 'yield' ? n(c.prices.apartment.grossYield) : xKey === 'price' ? n(c.prices.apartment.average) : xKey === 'vacancy' ? n(c.insee?.vacancyRate) : n(c.insee?.medianIncome),
-      y: yKey === 'risk' ? n(c.investment?.riskScore) : yKey === 'yield' ? n(c.prices.apartment.grossYield) : yKey === 'transport' ? n(c.transport?.transportScore) : n(c.investment?.globalScore),
-      risk: c.investment?.riskLevel ?? 'MODERATE',
-      name: c.city, dept: c.department, city: c,
+      x: xKey === 'yield' ? n(c.apartmentYield)
+        : xKey === 'price' ? n(c.apartmentPrice)
+        : xKey === 'cashflow' ? n(c.cashflowScore)
+        : n(c.beginnerScore),
+      y: yKey === 'risk' ? n(c.riskScore)
+        : yKey === 'globalScore' ? n(c.globalScore)
+        : yKey === 'yieldScore' ? n(c.yieldScore)
+        : n(c.patrimonialScore),
+      risk: c.riskLevel ?? 'MEDIUM',
+      name: c.city,
+      dept: c.department,
+      inseeCode: c.inseeCode,
     }))
     .filter((d) => d.x > 0 && d.y > 0);
 
@@ -52,7 +71,11 @@ export function ScatterYieldRisk({ cities, onCityClick, xKey = 'yield', yKey = '
           <XAxis dataKey="x" type="number" tick={{ fontSize: 10, fill: tickColor }} label={{ value: X_LABELS[xKey], position: 'insideBottom', offset: -10, fontSize: 10, fill: labelColor }} domain={['auto', 'auto']} />
           <YAxis dataKey="y" type="number" tick={{ fontSize: 10, fill: tickColor }} label={{ value: Y_LABELS[yKey], angle: -90, position: 'insideLeft', fontSize: 10, fill: labelColor }} />
           <Tooltip content={<CustomTooltip />} />
-          <Scatter data={data} onClick={(d) => { if (d?.city && onCityClick) onCityClick(d.city as City); }} cursor={onCityClick ? 'pointer' : 'default'}>
+          <Scatter
+            data={data}
+            onClick={(d) => { if (d?.inseeCode && onCityClick) onCityClick(d.inseeCode as string); }}
+            cursor={onCityClick ? 'pointer' : 'default'}
+          >
             {data.map((entry, i) => <Cell key={i} fill={RISK_COLORS[entry.risk] ?? '#6366f1'} opacity={0.75} />)}
           </Scatter>
         </ScatterChart>
@@ -61,7 +84,7 @@ export function ScatterYieldRisk({ cities, onCityClick, xKey = 'yield', yKey = '
         {Object.entries(RISK_COLORS).map(([risk, color]) => (
           <span key={risk} className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-            {risk === 'LOW' ? 'Faible' : risk === 'MODERATE' ? 'Modéré' : risk === 'HIGH' ? 'Élevé' : 'Très élevé'}
+            {risk === 'LOW' ? 'Faible' : risk === 'MEDIUM' ? 'Modéré' : 'Élevé'}
           </span>
         ))}
       </div>

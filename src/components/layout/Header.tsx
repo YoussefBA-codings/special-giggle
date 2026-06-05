@@ -1,33 +1,98 @@
-import { Search, Database, RefreshCw, Sun, Moon, Menu } from 'lucide-react';
-import type { Page } from './Sidebar';
+import React from 'react';
+import { Sun, Moon, Menu, ChevronRight, Database } from 'lucide-react';
+import { useLocation, useNavigate, Link } from '../../router';
 
-const PAGE_LABELS: Record<Page, { title: string; subtitle: string }> = {
-  dashboard:     { title: 'Vue d\'ensemble',    subtitle: 'Résumé du marché IDF' },
-  opportunities: { title: 'Meilleures villes',  subtitle: 'Classements et opportunités' },
-  explorer:      { title: 'Explorer',           subtitle: 'Filtrez les 1 265 communes' },
-  compare:       { title: 'Comparer',           subtitle: 'Comparez jusqu\'à 4 villes côte à côte' },
-  profiles:      { title: 'Stratégies',         subtitle: 'Choisissez votre profil d\'investisseur' },
-  riskmap:       { title: 'Carte des risques',  subtitle: 'Visualisations rendement / risque / transport' },
-  methodology:   { title: 'Comment ça marche', subtitle: 'Explication des scores et données' },
-};
+// ---------------------------------------------------------------------------
+// Breadcrumb
+// ---------------------------------------------------------------------------
+
+interface Crumb { label: string; path?: string }
+
+function buildBreadcrumbs(pathname: string): Crumb[] {
+  const segments = pathname.split('/').filter(Boolean);
+  if (segments.length === 0) return [{ label: 'France' }];
+
+  const crumbs: Crumb[] = [{ label: 'France', path: '/' }];
+
+  const SEGMENT_LABELS: Record<string, string> = {
+    regions: 'Régions', departments: 'Départements', explorer: 'Explorateur',
+    map: 'Carte', rankings: 'Classements', compare: 'Comparer',
+    methodology: 'Méthodologie', cities: 'Villes',
+  };
+
+  const RANKING_LABELS: Record<string, string> = {
+    global: 'Investissement équilibré', cashflow: 'Cashflow', yield: 'Rendement réaliste',
+    patrimonial: 'Patrimonial', beginner: 'Débutants', 'low-risk': 'Faible risque',
+    'yield-traps': 'Yield traps', 'long-term': 'À surveiller',
+    'rental-demand': 'Dem. locative', 'price-accessible': 'Prix accessibles',
+  };
+
+  let builtPath = '';
+  segments.forEach((seg, i) => {
+    builtPath += '/' + seg;
+    const isLast = i === segments.length - 1;
+    if (segments[i - 1] === 'rankings') {
+      crumbs.push({ label: RANKING_LABELS[seg] ?? seg, path: isLast ? undefined : builtPath });
+      return;
+    }
+    if (['regions', 'departments', 'cities'].includes(segments[i - 1])) {
+      const pretty = seg.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+      crumbs.push({ label: pretty, path: isLast ? undefined : builtPath });
+      return;
+    }
+    crumbs.push({ label: SEGMENT_LABELS[seg] ?? seg, path: isLast ? undefined : builtPath });
+  });
+  return crumbs;
+}
+
+// ---------------------------------------------------------------------------
+// Quick nav
+// ---------------------------------------------------------------------------
+
+const QUICK_NAV = [
+  { label: 'France',       path: '/' },
+  { label: 'Régions',      path: '/regions' },
+  { label: 'Départements', path: '/departments' },
+  { label: 'Explorateur',  path: '/explorer' },
+];
+
+// ---------------------------------------------------------------------------
+// Props
+// ---------------------------------------------------------------------------
 
 interface Props {
-  page: Page;
-  totalCities: number;
-  loading: boolean;
-  globalSearch: string;
-  onGlobalSearch: (q: string) => void;
+  page?: string;
   isDark: boolean;
   onToggleTheme: () => void;
   onOpenMobileSidebar: () => void;
 }
 
-export function Header({ page, totalCities, loading, globalSearch, onGlobalSearch, isDark, onToggleTheme, onOpenMobileSidebar }: Props) {
-  const { title, subtitle } = PAGE_LABELS[page];
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
+export function Header({ isDark, onToggleTheme, onOpenMobileSidebar }: Props) {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const crumbs = buildBreadcrumbs(pathname);
+
+  // ---------------------------------------------------------------------------
+  // Helpers
+  // ---------------------------------------------------------------------------
+
+  function isQuickNavActive(path: string) {
+    if (path === '/') return pathname === '/';
+    return pathname === path || pathname.startsWith(path + '/');
+  }
+
+  // ---------------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------------
 
   return (
     <header className="header-bg sticky top-0 z-20 px-4 sm:px-5 py-2.5 flex items-center gap-3 shrink-0">
-      {/* Hamburger — mobile only */}
+      {/* Hamburger */}
       <button
         onClick={onOpenMobileSidebar}
         className="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 t-secondary transition-colors shrink-0"
@@ -36,43 +101,59 @@ export function Header({ page, totalCities, loading, globalSearch, onGlobalSearc
         <Menu size={18} />
       </button>
 
-      {/* Title */}
-      <div className="flex-1 min-w-0 hidden sm:block">
-        <h1 className="text-sm font-bold t-primary leading-tight truncate">{title}</h1>
-        <p className="text-[10px] t-muted leading-tight hidden md:block">{subtitle}</p>
-      </div>
-      {/* Mobile: just title */}
-      <div className="flex-1 min-w-0 sm:hidden">
-        <h1 className="text-sm font-bold t-primary truncate">{title}</h1>
+      {/* Breadcrumb — desktop */}
+      <nav className="hidden md:flex items-center gap-1 min-w-0 flex-1" aria-label="Fil d'ariane">
+        {crumbs.map((crumb, i) => (
+          <React.Fragment key={i}>
+            {i > 0 && <ChevronRight size={12} className="t-muted shrink-0" />}
+            {crumb.path ? (
+              <Link to={crumb.path} className="text-sm t-secondary hover:t-primary transition-colors truncate max-w-[140px] hover:underline underline-offset-2">
+                {crumb.label}
+              </Link>
+            ) : (
+              <span className="text-sm font-semibold t-primary truncate max-w-[200px]">{crumb.label}</span>
+            )}
+          </React.Fragment>
+        ))}
+      </nav>
+
+      {/* Mobile title */}
+      <div className="flex-1 min-w-0 md:hidden">
+        <p className="text-sm font-bold t-primary truncate">{crumbs[crumbs.length - 1]?.label ?? 'ImmoInsight'}</p>
       </div>
 
-      {/* Search */}
-      <div className="relative hidden sm:block">
-        <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 t-muted pointer-events-none" />
-        <input
-          type="text"
-          placeholder="Chercher une ville…"
-          value={globalSearch}
-          onChange={(e) => onGlobalSearch(e.target.value)}
-          className="input-base w-40 md:w-52 pl-8 py-1.5 text-xs"
-        />
+      {/* Quick nav — desktop */}
+      <div className="hidden lg:flex items-center gap-0.5 shrink-0">
+        {QUICK_NAV.map((item) => {
+          const active = isQuickNavActive(item.path);
+          return (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              className={`text-xs px-2.5 py-1.5 rounded-lg font-medium transition-colors ${
+                active
+                  ? 'bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400'
+                  : 'btn-ghost t-secondary hover:t-primary'
+              }`}
+            >
+              {item.label}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Status chip */}
+      {/* Data chip */}
       <div className="hidden md:flex items-center gap-1.5 text-xs t-muted shrink-0 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full">
-        {loading
-          ? <RefreshCw size={11} className="animate-spin text-blue-500" />
-          : <Database size={11} className="text-emerald-500" />
-        }
-        <span>{loading ? 'Chargement…' : `${totalCities} villes`}</span>
+        <Database size={11} className="text-emerald-500" />
+        <span>34 746 communes</span>
       </div>
 
       {/* Theme toggle */}
       <button
         onClick={onToggleTheme}
         className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
-        aria-label={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
-        title={isDark ? 'Mode clair' : 'Mode sombre'}
+        aria-label={isDark ? 'Mode clair' : 'Mode sombre'}
+        title={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
       >
         {isDark
           ? <Sun size={16} className="text-amber-400" />

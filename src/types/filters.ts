@@ -1,59 +1,29 @@
-import type { InvestmentProfile, RiskLevel, Recommendation, TransportClassification } from './city';
+import type { RiskLevel } from './city';
 
 export interface Filters {
   search: string;
   department: string;
-  profile: InvestmentProfile | '';
-  recommendation: Recommendation | '';
+  profile: string;
   riskLevel: RiskLevel | '';
-  bestPropertyType: 'apartment' | 'house' | '';
-  transportClassification: TransportClassification | '';
-  selectedTags: string[];
   minYield: number;
   maxYield: number;
   maxPrice: number;
-  minRent: number;
-  maxVacancy: number;
-  minPopulation: number;
-  minIncome: number;
-  minGrowth: number;
-  maxStationDistance: number;
   minGlobalScore: number;
-  minCashflowScore: number;
-  minBeginnerScore: number;
-  minPatrimonialScore: number;
-  excludeYieldTrap: boolean;
-  excludeIsolated: boolean;
-  beginnerOnly: boolean;
-  cashflowOnly: boolean;
+  sortBy: string;
+  sortOrder: 'asc' | 'desc';
 }
 
 export const DEFAULT_FILTERS: Filters = {
   search: '',
   department: '',
   profile: '',
-  recommendation: '',
   riskLevel: '',
-  bestPropertyType: '',
-  transportClassification: '',
-  selectedTags: [],
   minYield: 0,
   maxYield: 0,
   maxPrice: 0,
-  minRent: 0,
-  maxVacancy: 0,
-  minPopulation: 0,
-  minIncome: 0,
-  minGrowth: -999,
-  maxStationDistance: 0,
   minGlobalScore: 0,
-  minCashflowScore: 0,
-  minBeginnerScore: 0,
-  minPatrimonialScore: 0,
-  excludeYieldTrap: false,
-  excludeIsolated: false,
-  beginnerOnly: false,
-  cashflowOnly: false,
+  sortBy: 'globalScore',
+  sortOrder: 'desc',
 };
 
 export interface FilterPreset {
@@ -69,29 +39,29 @@ export const FILTER_PRESETS: FilterPreset[] = [
     id: 'cashflow',
     label: 'Cashflow positif',
     icon: '💰',
-    description: 'Rendement > 7%, vacance < 10%',
-    filters: { minYield: 7, maxVacancy: 10, excludeYieldTrap: false },
+    description: 'Rendement > 7%',
+    filters: { minYield: 7, profile: 'HIGH_YIELD' },
   },
   {
     id: 'beginner',
     label: 'Premier investissement',
     icon: '🎯',
     description: 'Villes recommandées pour débutants',
-    filters: { beginnerOnly: true, excludeYieldTrap: true, excludeIsolated: true, minBeginnerScore: 50 },
+    filters: { profile: 'BEGINNER_FRIENDLY' },
   },
   {
     id: 'patrimonial',
     label: 'Patrimonial sécurisé',
     icon: '🏛️',
     description: 'Risque faible, valorisation long terme',
-    filters: { profile: 'PATRIMONIAL_SAFE', riskLevel: '' },
+    filters: { profile: 'PATRIMONIAL', riskLevel: 'LOW' },
   },
   {
-    id: 'longterm',
-    label: 'Long terme',
-    icon: '📈',
-    description: 'Potentiel de valorisation fort',
-    filters: { minGrowth: 0, minPatrimonialScore: 40 },
+    id: 'balanced',
+    label: 'Équilibré',
+    icon: '⚖️',
+    description: 'Bon équilibre rendement/risque',
+    filters: { profile: 'BALANCED_OPPORTUNITY' },
   },
   {
     id: 'smallbudget',
@@ -101,38 +71,24 @@ export const FILTER_PRESETS: FilterPreset[] = [
     filters: { maxPrice: 3000 },
   },
   {
-    id: 'transport',
-    label: 'Proche transport',
-    icon: '🚊',
-    description: 'Gare à moins de 5 km',
-    filters: { maxStationDistance: 5 },
-  },
-  {
     id: 'notraps',
     label: 'Éviter les pièges',
     icon: '🛡️',
-    description: 'Exclure rendements pièges et isolés',
-    filters: { excludeYieldTrap: true, excludeIsolated: true },
+    description: 'Exclure yield traps',
+    filters: { riskLevel: 'LOW' },
   },
   {
-    id: 'highyield_safe',
-    label: 'Rendement > 7% + risque modéré',
+    id: 'highyield',
+    label: 'Rendement élevé',
     icon: '⚡',
-    description: 'Bon rendement sans risque excessif',
-    filters: { minYield: 7, riskLevel: 'MODERATE' as RiskLevel },
-  },
-  {
-    id: 'lowvacancy',
-    label: 'Vacance < 8%',
-    icon: '🏠',
-    description: 'Marché locatif tendu',
-    filters: { maxVacancy: 8 },
+    description: 'Rendement > 7%',
+    filters: { minYield: 7 },
   },
   {
     id: 'strong_only',
     label: 'Fortes opportunités',
     icon: '🌟',
     description: 'Score global > 60',
-    filters: { minGlobalScore: 60, excludeYieldTrap: true },
+    filters: { minGlobalScore: 60 },
   },
 ];

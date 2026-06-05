@@ -1,18 +1,14 @@
-import type { City } from '../types/city';
-import { n, fmt } from './formatters';
+import type { CommuneIndex } from '../types/api';
 
-export function exportToCSV(cities: City[], filename = 'immoinsight-export.csv'): void {
+export function exportToCSV(cities: CommuneIndex[], filename = 'immoinsight-export.csv'): void {
   const headers = [
-    'Ville', 'Département', 'Code postal',
-    'Score global', 'Profil', 'Recommandation', 'Niveau risque',
-    'Meilleur bien',
+    'Ville', 'Département', 'Code postal', 'Code INSEE',
+    'Région', 'Population',
+    'Score global', 'Score cashflow', 'Score rendement', 'Score débutant',
+    'Score patrimonial', 'Score long terme', 'Score demande locative',
+    'Profil', 'Niveau risque',
     'Prix moyen appt (€/m²)', 'Loyer appt (€/m²)', 'Rendement appt (%)',
     'Prix moyen maison (€/m²)', 'Loyer maison (€/m²)', 'Rendement maison (%)',
-    'Score cashflow', 'Score débutant', 'Score patrimonial', 'Score long terme',
-    'Vacance (%)', 'Croissance pop. 6 ans (%)',
-    'Revenu médian (€)', 'Population',
-    'Score transport', 'Classification transport',
-    'Gare la plus proche', 'Distance gare (km)',
     'Tags',
   ];
 
@@ -20,30 +16,25 @@ export function exportToCSV(cities: City[], filename = 'immoinsight-export.csv')
     c.city,
     c.department,
     c.postalCode,
-    n(c.investment?.globalScore),
-    c.investment?.profile ?? '',
-    c.investment?.recommendation ?? '',
-    c.investment?.riskLevel ?? '',
-    c.investment?.bestPropertyType ?? '',
-    n(c.prices.apartment.average),
-    n(c.prices.apartment.rent),
-    n(c.prices.apartment.grossYield),
-    n(c.prices.house.average),
-    n(c.prices.house.rent),
-    n(c.prices.house.grossYield),
-    n(c.investment?.cashflowScore),
-    n(c.investment?.beginnerScore),
-    n(c.investment?.patrimonialScore),
-    n(c.investment?.longTermScore),
-    n(c.insee?.vacancyRate),
-    n(c.insee?.populationGrowth6Y),
-    n(c.insee?.medianIncome),
-    n(c.insee?.population),
-    n(c.transport?.transportScore),
-    c.transport?.classification ?? '',
-    c.transport?.nearestStation?.name ?? '',
-    n(c.transport?.nearestStation?.distanceKm),
-    (c.insights?.tags ?? []).join(', '),
+    c.inseeCode,
+    c.regionSlug,
+    c.population ?? '',
+    c.globalScore ?? '',
+    c.cashflowScore ?? '',
+    c.yieldScore ?? '',
+    c.beginnerScore ?? '',
+    c.patrimonialScore ?? '',
+    c.longTermScore ?? '',
+    c.rentalDemandScore ?? '',
+    c.profile ?? '',
+    c.riskLevel ?? '',
+    c.apartmentPrice ?? '',
+    c.apartmentRent ?? '',
+    c.apartmentYield ?? '',
+    c.housePrice ?? '',
+    c.houseRent ?? '',
+    c.houseYield ?? '',
+    (c.tags ?? []).join(', '),
   ]);
 
   const csvContent = [headers, ...rows]
@@ -58,6 +49,3 @@ export function exportToCSV(cities: City[], filename = 'immoinsight-export.csv')
   link.click();
   URL.revokeObjectURL(url);
 }
-
-// Silence unused fmt import warning
-void fmt;

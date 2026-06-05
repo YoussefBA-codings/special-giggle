@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import type { City } from '../../types/city';
+import type { CommuneIndex } from '../../types/api';
 import { OpportunityCard } from './OpportunityCard';
 
 interface Props {
   title: string; subtitle?: string; emoji?: string;
-  cities: City[]; scoreGetter?: (c: City) => number | null;
-  onCityClick: (city: City) => void;
+  cities: CommuneIndex[]; scoreGetter?: (c: CommuneIndex) => number | null;
+  onCityClick: (inseeCode: string) => void;
   defaultExpanded?: boolean; maxVisible?: number;
 }
 
@@ -32,8 +32,13 @@ export function OpportunitySection({ title, subtitle, emoji, cities, scoreGetter
         <div className="border-t border-slate-200 dark:border-slate-800">
           <div className="p-3 sm:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
             {visible.map((city, i) => (
-              <OpportunityCard key={city.city + city.postalCode} city={city} rank={i + 1}
-                scoreValue={scoreGetter ? scoreGetter(city) : undefined} onClick={onCityClick} />
+              <OpportunityCard
+                key={city.inseeCode}
+                city={city}
+                rank={i + 1}
+                scoreValue={scoreGetter ? scoreGetter(city) : undefined}
+                onClick={onCityClick}
+              />
             ))}
           </div>
           {cities.length > maxVisible && (

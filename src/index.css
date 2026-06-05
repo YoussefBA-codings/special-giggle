@@ -49,3 +49,7 @@ body {
   /* Header */
   .header-bg  { @apply bg-white/90 dark:bg-slate-950/90 border-b border-slate-200 dark:border-slate-800 backdrop-blur; }
 }
+
+/* Leaflet — suppression du carré blanc résiduel des contrôles par défaut */
+.leaflet-control-zoom { display: none !important; }
+.leaflet-top.leaflet-left { background: transparent !important; box-shadow: none !important; }

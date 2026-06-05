@@ -1,7 +1,7 @@
 import { Brain } from 'lucide-react';
-import type { GlobalStats } from '../../lib/statistics';
+import type { DashboardStats } from '../../lib/statistics';
 
-interface Props { stats: GlobalStats; }
+interface Props { stats: DashboardStats; }
 
 export function SmartSummary({ stats }: Props) {
   if (stats.total === 0) return null;
@@ -20,13 +20,13 @@ export function SmartSummary({ stats }: Props) {
       </div>
       <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
-          { label: 'Patrimonial', count: stats.countPatrimonial, cls: 'text-violet-600 dark:text-violet-400' },
-          { label: 'Cashflow',    count: stats.countCashflow,    cls: 'text-emerald-600 dark:text-emerald-400' },
-          { label: 'Débutant',    count: stats.countBeginnerFriendly, cls: 'text-blue-600 dark:text-blue-400' },
-          { label: 'Risque faible', count: stats.countLowRisk, cls: 'text-teal-600 dark:text-teal-400' },
+          { label: 'Patrimonial',   count: stats.countPatrimonial,      cls: 'text-violet-600 dark:text-violet-400' },
+          { label: 'Cashflow',      count: stats.countCashflow,         cls: 'text-emerald-600 dark:text-emerald-400' },
+          { label: 'Débutant',      count: stats.countBeginnerFriendly, cls: 'text-blue-600 dark:text-blue-400' },
+          { label: 'Risque faible', count: stats.countLowRisk,          cls: 'text-teal-600 dark:text-teal-400' },
         ].map(({ label, count, cls }) => (
           <div key={label} className="bg-slate-50 dark:bg-slate-800 rounded-lg p-3 text-center border border-slate-200 dark:border-slate-700">
-            <p className={`text-2xl font-black ${cls}`}>{count}</p>
+            <p className={`text-2xl font-black ${cls}`}>{count.toLocaleString('fr-FR')}</p>
             <p className="text-xs t-muted mt-0.5">{label}</p>
           </div>
         ))}

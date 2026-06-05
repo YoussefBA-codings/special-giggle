@@ -46,7 +46,7 @@ export function ScoreRadar({ cities, colors = DEFAULT_COLORS, isDark = true }: P
         <PolarGrid stroke={gridColor} />
         <PolarAngleAxis dataKey="subject" tick={{ fill: tickColor, fontSize: 11 }} />
         {cities.map((city, i) => (
-          <Radar key={city.city} name={city.city} dataKey={`city${i}`}
+          <Radar key={city.city + i} name={city.city} dataKey={`city${i}`}
             stroke={colors[i % colors.length]} fill={colors[i % colors.length]} fillOpacity={0.15} strokeWidth={2} />
         ))}
         {cities.length > 1 && (

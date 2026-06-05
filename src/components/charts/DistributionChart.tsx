@@ -1,28 +1,26 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import type { City } from '../../types/city';
+import type { CommuneIndex } from '../../types/api';
 import { n } from '../../lib/formatters';
 
-interface Props { cities: City[]; isDark?: boolean; }
+interface Props { cities: CommuneIndex[]; isDark?: boolean; }
 
 export function DistributionChart({ cities, isDark = true }: Props) {
   const gridColor = isDark ? '#1e293b' : '#e2e8f0';
   const tickColor = isDark ? '#64748b' : '#94a3b8';
 
   const profileCounts = cities.reduce((acc, c) => {
-    const p = c.investment?.profile ?? 'DATA_INCOMPLETE';
+    const p = c.profile ?? 'DEFAULT';
     acc[p] = (acc[p] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
   const profileData = [
-    { name: 'Cashflow',   value: profileCounts['CASHFLOW_OPPORTUNITY'] ?? 0, color: '#10b981' },
-    { name: 'Débutant',   value: profileCounts['BEGINNER_FRIENDLY'] ?? 0,    color: '#3b82f6' },
-    { name: 'Patrimonial',value: profileCounts['PATRIMONIAL_SAFE'] ?? 0,      color: '#8b5cf6' },
-    { name: 'Long terme', value: profileCounts['LONG_TERM_POTENTIAL'] ?? 0,   color: '#06b6d4' },
-    { name: 'Équilibré',  value: profileCounts['BALANCED_OPPORTUNITY'] ?? 0,  color: '#14b8a6' },
-    { name: 'Piège',      value: profileCounts['YIELD_TRAP'] ?? 0,            color: '#ef4444' },
-    { name: 'Faible',     value: profileCounts['LOW_INTEREST'] ?? 0,          color: '#94a3b8' },
-    { name: 'Incomplet',  value: profileCounts['DATA_INCOMPLETE'] ?? 0,       color: '#64748b' },
+    { name: 'Cashflow',    value: profileCounts['HIGH_YIELD'] ?? 0,           color: '#10b981' },
+    { name: 'Débutant',    value: profileCounts['BEGINNER_FRIENDLY'] ?? 0,    color: '#3b82f6' },
+    { name: 'Patrimonial', value: profileCounts['PATRIMONIAL'] ?? 0,           color: '#8b5cf6' },
+    { name: 'Équilibré',   value: profileCounts['BALANCED_OPPORTUNITY'] ?? 0, color: '#14b8a6' },
+    { name: 'Piège',       value: profileCounts['YIELD_TRAP'] ?? 0,           color: '#ef4444' },
+    { name: 'Standard',    value: profileCounts['DEFAULT'] ?? 0,              color: '#94a3b8' },
   ].filter((d) => d.value > 0);
 
   const yieldBuckets = [
@@ -35,7 +33,7 @@ export function DistributionChart({ cities, isDark = true }: Props) {
     { range: '>10%', min: 10, max: 999, count: 0, color: '#06b6d4' },
   ];
   cities.forEach((c) => {
-    const y = n(c.prices.apartment.grossYield);
+    const y = n(c.apartmentYield);
     if (y <= 0) return;
     const b = yieldBuckets.find((b) => y >= b.min && y < b.max);
     if (b) b.count++;

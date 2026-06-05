@@ -3,7 +3,7 @@ import type { DepartmentStat } from '../../lib/statistics';
 
 interface Props {
   data: DepartmentStat[];
-  metric: 'avgGlobalScore' | 'avgAptYield' | 'avgAptPrice' | 'avgVacancy' | 'avgIncome' | 'avgRisk';
+  metric: keyof DepartmentStat;
   title: string; unit?: string; colorFn?: (value: number) => string; isDark?: boolean;
 }
 
@@ -13,7 +13,9 @@ function defaultColor(_: number, i: number) { return COLORS[i % COLORS.length]; 
 export function DepartmentBarChart({ data, metric, title, unit = '', colorFn, isDark = true }: Props) {
   const gridColor = isDark ? '#1e293b' : '#e2e8f0';
   const tickColor = isDark ? '#64748b' : '#94a3b8';
-  const formatted = data.map((d) => ({ name: `${d.department}`, value: parseFloat(d[metric].toFixed(1)), count: d.count }));
+  const formatted = data
+    .filter((d) => typeof d[metric] === 'number' && (d[metric] as number) > 0)
+    .map((d) => ({ name: `${d.department}`, value: parseFloat((d[metric] as number).toFixed(1)), count: d.count }));
 
   const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: { value: number }[]; label?: string }) => {
     if (!active || !payload?.length) return null;
