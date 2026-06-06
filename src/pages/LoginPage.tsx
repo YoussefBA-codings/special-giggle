@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Building2, Eye, EyeOff, Lock, User, AlertCircle, TrendingUp } from 'lucide-react';
 
-const CREDENTIALS = { username: 'immo', password: 'Invest2025' };
+const CREDENTIALS = { username: 'le_roi_du_m2', password: 'Br1que$D4Or_SansYi3ldTr4p!99' };
 const AUTH_KEY = 'immoinsight-auth';
 
 export function isAuthenticated(): boolean {
