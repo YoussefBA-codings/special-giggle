@@ -4,7 +4,7 @@ import {
   Percent, Building2, Star, GitCompare, BookOpen,
   PanelLeftClose, PanelLeftOpen, X, Lightbulb, Users, Activity,
 } from 'lucide-react';
-import { useLocation, useNavigate, Link } from '../../router';
+import { useLocation, useNavigate } from '../../router';
 
 // ---------------------------------------------------------------------------
 // Nav structure

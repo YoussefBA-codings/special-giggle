@@ -94,6 +94,8 @@ export interface DepartmentSummary {
   avgApartmentPrice: number | null;
 }
 
+export type DepartmentListItem = DepartmentSummary;
+
 export interface DepartmentDetail extends DepartmentSummary {
   avgHousePrice: number | null;
   avgApartmentRent: number | null;

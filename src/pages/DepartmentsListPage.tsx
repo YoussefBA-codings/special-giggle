@@ -3,7 +3,7 @@ import { Search, SlidersHorizontal } from 'lucide-react';
 import { fetchDepartments } from '../lib/api';
 import type { DepartmentSummary } from '../types/api';
 import { fmt, n } from '../lib/formatters';
-import { scoreBg, scoreColor } from '../lib/insights';
+import { scoreBg } from '../lib/insights';
 import { useNavigate } from '../router';
 
 const REGIONS_META: Record<string, string> = {

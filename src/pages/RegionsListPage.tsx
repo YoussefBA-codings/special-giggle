@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Search, ArrowRight, TrendingUp, MapPin, Building2, Users } from 'lucide-react';
+import { Search, ArrowRight } from 'lucide-react';
 import { fetchRegions } from '../lib/api';
 import type { RegionSummary } from '../types/api';
 import { fmt, n } from '../lib/formatters';

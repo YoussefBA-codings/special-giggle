@@ -1,6 +1,6 @@
 import { ChevronUp, ChevronDown, ChevronsUpDown, ChevronRight } from 'lucide-react';
 import type { CommuneIndex } from '../../types/api';
-import { fmt, n } from '../../lib/formatters';
+import { fmt } from '../../lib/formatters';
 import { RiskBadge, YieldBadge } from '../ui/Badge';
 import { ScoreBadge } from '../ui/ScoreBadge';
 

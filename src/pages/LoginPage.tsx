@@ -23,8 +23,6 @@ export function LoginPage({ onSuccess }: Props) {
   const [showPw, setShowPw] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isDark] = useState(() => document.documentElement.classList.contains('dark'));
-
   // Animate in
   const [visible, setVisible] = useState(false);
   useEffect(() => { setTimeout(() => setVisible(true), 30); }, []);

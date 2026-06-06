@@ -17,11 +17,11 @@ import {
   BarChart3,
   Zap,
 } from 'lucide-react';
-import { useNavigate, useLocation } from '../router';
+import { useNavigate } from '../router';
 import { fetchCitiesPage, fetchRegions, fetchDepartments } from '../lib/api';
 import type { CitiesParams } from '../lib/api';
 import type { CommuneIndex, RegionSummary, DepartmentSummary } from '../types/api';
-import { fmt, n } from '../lib/formatters';
+import { fmt } from '../lib/formatters';
 import { exportToCSV } from '../lib/export';
 import { ScoreBadge } from '../components/ui/ScoreBadge';
 import { RiskBadge, YieldBadge, ProfileBadge } from '../components/ui/Badge';
@@ -551,7 +551,7 @@ function CheckboxGroup({
 }
 
 function AccordionSection({
-  id,
+  id: _id,
   icon,
   title,
   badge,
@@ -600,7 +600,6 @@ function AccordionSection({
 
 export function AdvancedExplorerPage() {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   // Parse filters from URL search params
   const [filters, setFilters] = useState<AdvancedFilters>(() => {

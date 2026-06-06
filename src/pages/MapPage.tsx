@@ -40,7 +40,7 @@ const DEFAULT_FILTERS: MapFilters = {
 // Helpers
 // ---------------------------------------------------------------------------
 
-function scoreBg(score: number): string {
+function _scoreBg(score: number): string {
   if (score >= 80) return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400';
   if (score >= 60) return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
   if (score >= 40) return 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400';
@@ -70,10 +70,11 @@ function getYieldDisplay(city: CommuneIndex): string {
 }
 
 // ---------------------------------------------------------------------------
-// Leaflet type shim
+// Leaflet type shim (loaded via CDN, no npm package)
 // ---------------------------------------------------------------------------
 
-type LeafletLib = typeof import('leaflet');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type LeafletLib = any;
 
 function getLeaflet(): LeafletLib {
   return (window as unknown as { L: LeafletLib }).L;

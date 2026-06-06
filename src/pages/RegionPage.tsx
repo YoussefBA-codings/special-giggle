@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, AlertTriangle, TrendingUp, Users, Building2, MapPin, Shield, Zap } from 'lucide-react';
 import { fetchRegion, fetchDepartments } from '../lib/api';
 import type { RegionDetail, DepartmentSummary, CommuneIndex } from '../types/api';
-import { fmt, n } from '../lib/formatters';
+import { fmt } from '../lib/formatters';
 import { scoreBg, scoreColor, generateRegionInsights, riskBg } from '../lib/insights';
-import { useParams, useNavigate, Link } from '../router';
+import { useParams, useNavigate } from '../router';
 
 type Tab = 'top' | 'risks' | 'departments';
 

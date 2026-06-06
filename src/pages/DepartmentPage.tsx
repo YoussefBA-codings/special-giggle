@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, AlertTriangle, TrendingUp, Users, Building2, Shield, Zap } from 'lucide-react';
 import { fetchDepartment } from '../lib/api';
 import type { DepartmentDetail, CommuneIndex } from '../types/api';
-import { fmt, n } from '../lib/formatters';
+import { fmt } from '../lib/formatters';
 import { scoreBg, scoreColor, riskBg, generateDepartmentInsights } from '../lib/insights';
 import { useParams, useNavigate } from '../router';
 
