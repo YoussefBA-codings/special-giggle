@@ -46,6 +46,9 @@ export interface CitiesParams {
   minCashflowScore?: number;
   minPatrimonialScore?: number;
   minBeginnerScore?: number;
+  minMedianIncome?: number;
+  maxMedianIncome?: number;
+  maxDistanceToStation?: number;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
   page?: number;
@@ -73,6 +76,9 @@ function buildCitiesQuery(params: CitiesParams): URLSearchParams {
   if (params.minCashflowScore != null && params.minCashflowScore > 0) q.set('minCashflowScore', String(params.minCashflowScore));
   if (params.minPatrimonialScore != null && params.minPatrimonialScore > 0) q.set('minPatrimonialScore', String(params.minPatrimonialScore));
   if (params.minBeginnerScore != null && params.minBeginnerScore > 0) q.set('minBeginnerScore', String(params.minBeginnerScore));
+  if (params.minMedianIncome != null && params.minMedianIncome > 0) q.set('minMedianIncome', String(params.minMedianIncome));
+  if (params.maxMedianIncome != null && params.maxMedianIncome > 0) q.set('maxMedianIncome', String(params.maxMedianIncome));
+  if (params.maxDistanceToStation != null && params.maxDistanceToStation > 0) q.set('maxDistanceToStation', String(params.maxDistanceToStation));
   if (params.sortBy) q.set('sortBy', params.sortBy);
   if (params.sortOrder) q.set('sortOrder', params.sortOrder);
   q.set('page', String(params.page ?? 1));

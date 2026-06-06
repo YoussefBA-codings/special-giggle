@@ -56,6 +56,10 @@ interface AdvancedFilters {
   // Démographie
   minPopulation: number;
   maxPopulation: number;
+  // Revenus & Transport
+  minMedianIncome: number;
+  maxMedianIncome: number;
+  maxDistanceToStation: number;
   // Sort
   sortBy: string;
   sortOrder: 'asc' | 'desc';
@@ -82,6 +86,9 @@ const DEFAULT_FILTERS: AdvancedFilters = {
   minTenantShare: 0,
   minPopulation: 0,
   maxPopulation: 0,
+  minMedianIncome: 0,
+  maxMedianIncome: 0,
+  maxDistanceToStation: 0,
   sortBy: 'globalScore',
   sortOrder: 'desc',
 };
@@ -283,6 +290,9 @@ function filtersToSearch(f: AdvancedFilters): string {
   if (f.minTenantShare > 0) p.set('minTenantShare', String(f.minTenantShare));
   if (f.minPopulation > 0) p.set('minPopulation', String(f.minPopulation));
   if (f.maxPopulation > 0) p.set('maxPopulation', String(f.maxPopulation));
+  if (f.minMedianIncome > 0) p.set('minMedianIncome', String(f.minMedianIncome));
+  if (f.maxMedianIncome > 0) p.set('maxMedianIncome', String(f.maxMedianIncome));
+  if (f.maxDistanceToStation > 0) p.set('maxDistanceToStation', String(f.maxDistanceToStation));
   if (f.sortBy && f.sortBy !== 'globalScore') p.set('sortBy', f.sortBy);
   if (f.sortOrder && f.sortOrder !== 'desc') p.set('sortOrder', f.sortOrder);
   return p.toString();
@@ -319,6 +329,9 @@ function searchToFilters(search: string): AdvancedFilters {
     minTenantShare: num('minTenantShare'),
     minPopulation: num('minPopulation'),
     maxPopulation: num('maxPopulation'),
+    minMedianIncome: num('minMedianIncome'),
+    maxMedianIncome: num('maxMedianIncome'),
+    maxDistanceToStation: num('maxDistanceToStation'),
     sortBy: p.get('sortBy') ?? 'globalScore',
     sortOrder: (p.get('sortOrder') as 'asc' | 'desc') ?? 'desc',
   };
@@ -349,6 +362,9 @@ function filtersToApiParams(f: AdvancedFilters, page: number): CitiesParams {
   if (f.profile) p.profile = f.profile;
   if (f.minPopulation > 0) p.minPopulation = f.minPopulation;
   if (f.maxPopulation > 0) p.maxPopulation = f.maxPopulation;
+  if (f.minMedianIncome > 0) p.minMedianIncome = f.minMedianIncome;
+  if (f.maxMedianIncome > 0) p.maxMedianIncome = f.maxMedianIncome;
+  if (f.maxDistanceToStation > 0) p.maxDistanceToStation = f.maxDistanceToStation;
   return p;
 }
 
@@ -379,7 +395,10 @@ function hasActive(f: AdvancedFilters): boolean {
     f.maxVacancy > 0 ||
     f.minTenantShare > 0 ||
     f.minPopulation > 0 ||
-    f.maxPopulation > 0
+    f.maxPopulation > 0 ||
+    f.minMedianIncome > 0 ||
+    f.maxMedianIncome > 0 ||
+    f.maxDistanceToStation > 0
   );
 }
 
@@ -401,6 +420,8 @@ function countActive(f: AdvancedFilters): number {
   if (f.maxVacancy > 0) c++;
   if (f.minTenantShare > 0) c++;
   if (f.minPopulation > 0 || f.maxPopulation > 0) c++;
+  if (f.minMedianIncome > 0 || f.maxMedianIncome > 0) c++;
+  if (f.maxDistanceToStation > 0) c++;
   return c;
 }
 
@@ -626,6 +647,7 @@ export function AdvancedExplorerPage() {
     investissement: true,
     marche: false,
     demo: false,
+    revenus: false,
   });
 
   // Region/dept data for selects
@@ -740,6 +762,9 @@ export function AdvancedExplorerPage() {
     (filters.profile ? 1 : 0);
   const marcheBadge = (filters.maxVacancy > 0 ? 1 : 0) + (filters.minTenantShare > 0 ? 1 : 0);
   const demoBadge = filters.minPopulation > 0 || filters.maxPopulation > 0 ? 1 : 0;
+  const revenusBadge =
+    (filters.minMedianIncome > 0 || filters.maxMedianIncome > 0 ? 1 : 0) +
+    (filters.maxDistanceToStation > 0 ? 1 : 0);
 
   return (
     <div className="flex h-full">
@@ -1082,6 +1107,44 @@ export function AdvancedExplorerPage() {
                   onChangeMin={(v) => setFilter('minPopulation', v)}
                   onChangeMax={(v) => setFilter('maxPopulation', v)}
                 />
+              </AccordionSection>
+
+              {/* REVENUS & TRANSPORT */}
+              <AccordionSection
+                id="revenus"
+                icon={<TrendingUp size={12} />}
+                title="Revenus & Transport"
+                badge={revenusBadge}
+                open={sections.revenus}
+                onToggle={() => toggleSection('revenus')}
+              >
+                <div className="space-y-3">
+                  <RangeInputs
+                    labelMin="Revenu médian min (€/an)"
+                    labelMax="Revenu médian max (€/an)"
+                    min={0}
+                    max={60000}
+                    step={500}
+                    valueMin={filters.minMedianIncome}
+                    valueMax={filters.maxMedianIncome}
+                    placeholderMin="0"
+                    placeholderMax="60 000"
+                    onChangeMin={(v) => setFilter('minMedianIncome', v)}
+                    onChangeMax={(v) => setFilter('maxMedianIncome', v)}
+                  />
+                  <Field label="Distance gare max (km)">
+                    <input
+                      type="number"
+                      placeholder="Ex: 5"
+                      value={filters.maxDistanceToStation || ''}
+                      min={0}
+                      max={100}
+                      step={0.5}
+                      onChange={(e) => setFilter('maxDistanceToStation', parseFloat(e.target.value) || 0)}
+                      className="input-base w-full text-xs"
+                    />
+                  </Field>
+                </div>
               </AccordionSection>
             </div>
           </div>
