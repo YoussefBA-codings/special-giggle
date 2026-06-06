@@ -40,12 +40,6 @@ const DEFAULT_FILTERS: MapFilters = {
 // Helpers
 // ---------------------------------------------------------------------------
 
-function _scoreBg(score: number): string {
-  if (score >= 80) return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400';
-  if (score >= 60) return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
-  if (score >= 40) return 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400';
-  return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
-}
 
 function riskLabel(level: string): string {
   if (level === 'LOW') return 'Faible';
