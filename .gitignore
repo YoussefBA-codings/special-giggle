@@ -13,6 +13,7 @@ dist-ssr
 *.local
 .vite-cache
 .claude-pending-task.md
+.claude/
 
 # Editor directories and files
 .vscode/*
