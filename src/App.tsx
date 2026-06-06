@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';
+import { LoginPage, isAuthenticated } from './pages/LoginPage';
 import { Routes, Route } from './router';
 import { FranceDashboardPage } from './pages/FranceDashboardPage';
 import { RegionsListPage } from './pages/RegionsListPage';
@@ -33,9 +34,12 @@ function useTheme() {
 }
 
 export default function App() {
+  const [authed, setAuthed] = useState(() => isAuthenticated());
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const { isDark, toggle: toggleTheme } = useTheme();
+
+  if (!authed) return <LoginPage onSuccess={() => setAuthed(true)} />;
 
   return (
     <div className="flex min-h-screen page-bg">
