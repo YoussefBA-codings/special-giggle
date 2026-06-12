@@ -17,6 +17,7 @@ import { MethodologyPage } from './pages/MethodologyPage';
 import { OpportunitiesPage } from './pages/OpportunitiesPage';
 import { InvestorProfilesPage } from './pages/InvestorProfilesPage';
 import { RiskMapPage } from './pages/RiskMapPage';
+import { SimulateurRentabilitePage } from './pages/SimulateurRentabilitePage';
 
 const THEME_KEY = 'immoinsight-theme';
 
@@ -71,6 +72,7 @@ export default function App() {
             <Route path="/opportunities" element={<OpportunitiesPage />} />
             <Route path="/profiles" element={<InvestorProfilesPage />} />
             <Route path="/risk" element={<RiskMapPage />} />
+            <Route path="/simulateur" element={<SimulateurRentabilitePage />} />
             <Route path="/methodology" element={<MethodologyPage />} />
           </Routes>
         </main>

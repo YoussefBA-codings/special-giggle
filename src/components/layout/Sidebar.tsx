@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Globe, Map, Layers, Search, MapPin, Trophy, TrendingUp,
   Percent, Building2, Star, GitCompare, BookOpen,
-  PanelLeftClose, PanelLeftOpen, X, Lightbulb, Users, Activity,
+  PanelLeftClose, PanelLeftOpen, X, Lightbulb, Users, Activity, Calculator,
 } from 'lucide-react';
 import { useLocation, useNavigate } from '../../router';
 
@@ -55,6 +55,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { path: '/compare',     label: 'Comparer',             desc: 'Jusqu\'à 4 villes',    icon: <GitCompare size={18} /> },
       { path: '/profiles',    label: 'Profils investisseurs', desc: 'Par stratégie',        icon: <Users size={18} /> },
+      { path: '/simulateur',  label: 'Simulateur',           desc: 'Rentabilité locative',  icon: <Calculator size={18} /> },
       { path: '/methodology', label: 'Méthodologie',                                        icon: <BookOpen size={18} /> },
     ],
   },
