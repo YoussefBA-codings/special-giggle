@@ -79,8 +79,8 @@ export default function App() {
 
   const currentPath = window.location.pathname;
 
-  // ── Route publique (/simulateur) sans authentification ──────────────────
-  if (isPublicPath(currentPath) && !authed) {
+  // ── Routes publiques : simulateur (landing freemium) + racine pour non-connectés ─
+  if (!authed && (currentPath === '/' || isPublicPath(currentPath))) {
     if (showLogin) {
       return <LoginPage onSuccess={() => { setAuthed(true); setShowLogin(false); }} />;
     }
