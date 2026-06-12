@@ -320,6 +320,17 @@ export function SimulateurRentabilitePage() {
                 {eur(capitalTotal)}
               </p>
               <p className="text-[11px] t-muted mt-2">PTZ + T1 + T2 + Crédit normal</p>
+              {capitalTotal > 0 && surface > 0 && (
+                <div className="mt-3 pt-3 border-t border-blue-200 dark:border-blue-800">
+                  <p className="text-[10px] font-bold text-blue-500 dark:text-blue-400 uppercase tracking-widest mb-1">
+                    Prix m² à ne pas dépasser
+                  </p>
+                  <p className="text-xl font-black text-blue-600 dark:text-blue-300">
+                    {eur(capitalTotal / surface)}
+                    <span className="text-sm font-normal t-muted"> / m²</span>
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Alerte t3 = 0 */}
