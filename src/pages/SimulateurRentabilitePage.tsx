@@ -205,7 +205,7 @@ export function SimulateurRentabilitePage() {
                     value={prixM2 || ''}
                     placeholder="12"
                     onChange={(e) => setPrixM2(parseFloat(e.target.value) || 0)}
-                    className="input-base w-full text-sm"
+                    className="input-base w-full text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                 </Field>
               </div>
