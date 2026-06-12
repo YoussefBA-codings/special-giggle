@@ -42,7 +42,7 @@ export function ScoreRing({ score, label, size = 56 }: ScoreRingProps) {
         className={`flex items-center justify-center rounded-full border-2 font-black ${text} ${bg} ${border}`}
         style={{ width: size, height: size, fontSize: size * 0.35 }}
       >
-        {s ?? '—'}
+        {s ?? '-'}
       </div>
       <span className="text-[10px] t-muted text-center leading-tight">{label}</span>
     </div>

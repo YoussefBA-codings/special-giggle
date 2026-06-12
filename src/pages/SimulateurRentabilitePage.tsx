@@ -58,7 +58,7 @@ const FEATURES = [
     color: 'text-violet-600 dark:text-violet-400',
     bg: 'bg-violet-100 dark:bg-violet-900/30',
     title: 'Explorateur avancé',
-    desc: '34 746 communes filtrables par rendement, risque, revenu médian, distance gare — trouvez la perle rare.',
+    desc: '34 746 communes filtrables par rendement, risque, revenu médian, distance gare :trouvez la perle rare.',
   },
   {
     icon: <MapPin size={18} />,
@@ -211,7 +211,7 @@ export function SimulateurRentabilitePage({ onLogin }: { onLogin?: () => void })
           </h1>
           <p className="text-blue-100 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
             Calculez instantanément le <strong className="text-white">budget maximum d'acquisition</strong> pour
-            qu'un bien immobilier s'autofinance grâce au loyer — sans apport, à l'euro près.
+            qu'un bien immobilier s'autofinance grâce au loyer :sans apport, à l'euro près.
           </p>
 
           {/* Pills */}
@@ -227,9 +227,9 @@ export function SimulateurRentabilitePage({ onLogin }: { onLogin?: () => void })
           {/* How it works */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto text-left">
             {[
-              { n: '①', title: 'Définissez le loyer', body: 'Superficie et prix au m² — le loyer cible est calculé automatiquement.' },
+              { n: '①', title: 'Définissez le loyer', body: 'Superficie et prix au m² :le loyer cible est calculé automatiquement.' },
               { n: '②', title: 'Choisissez la durée', body: 'Crédit sur 20, 25 ou 30 ans selon votre stratégie patrimoniale.' },
-              { n: '③', title: 'Structurez le financement', body: 'PTZ, Action Logement, effort bancaire — l\'algorithme trouve le crédit max pour équilibrer loyer = échéance.' },
+              { n: '③', title: 'Structurez le financement', body: 'PTZ, Action Logement, effort bancaire :l\'algorithme trouve le crédit max pour équilibrer loyer = échéance.' },
             ].map((s) => (
               <div key={s.n} className="bg-white/10 backdrop-blur rounded-xl p-4">
                 <div className="text-2xl mb-2">{s.n}</div>
@@ -248,7 +248,7 @@ export function SimulateurRentabilitePage({ onLogin }: { onLogin?: () => void })
         <div className="max-w-4xl mx-auto px-5 py-4 flex flex-wrap justify-center gap-6">
           {[
             { icon: <TrendingUp size={13} />, text: 'Basé sur l\'autofinancement complet (loyer = échéance)' },
-            { icon: <Calculator size={13} />, text: 'Algorithme de bisection — 80 itérations, précision maximale' },
+            { icon: <Calculator size={13} />, text: 'Algorithme de bisection :80 itérations, précision maximale' },
             { icon: <CheckCircle2 size={13} />, text: 'Assurance emprunteur incluse (0,30 % / an)' },
           ].map((m) => (
             <div key={m.text} className="flex items-center gap-2 text-xs t-muted">
@@ -270,7 +270,7 @@ export function SimulateurRentabilitePage({ onLogin }: { onLogin?: () => void })
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
 
-          {/* Left — 3 étapes */}
+          {/* Left :3 étapes */}
           <div className="xl:col-span-2 space-y-4">
 
             {/* Étape 1 */}
@@ -336,13 +336,13 @@ export function SimulateurRentabilitePage({ onLogin }: { onLogin?: () => void })
             <StepCard num={3} icon={<Landmark size={14} />} title="Financement">
               <div className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <Field label="PTZ — 0 %" hint="Prêt à taux zéro">
+                  <Field label="PTZ :0 %" hint="Prêt à taux zéro">
                     <EurInput value={ptz} onChange={setPtz} />
                   </Field>
-                  <Field label="Action Logement — 1 %">
+                  <Field label="Action Logement :1 %">
                     <EurInput value={t1} onChange={setT1} />
                   </Field>
-                  <Field label="Effort banque — 2 %">
+                  <Field label="Effort banque :2 %">
                     <EurInput value={t2} onChange={setT2} />
                   </Field>
                 </div>
@@ -384,7 +384,7 @@ export function SimulateurRentabilitePage({ onLogin }: { onLogin?: () => void })
             </StepCard>
           </div>
 
-          {/* Right — Résultats */}
+          {/* Right :Résultats */}
           <div className="xl:col-span-1 space-y-4 xl:sticky xl:top-4 xl:self-start">
 
             <div className="card p-5 border-2 border-blue-200 dark:border-blue-800 bg-gradient-to-br from-blue-50 to-white dark:from-blue-950/30 dark:to-transparent">
@@ -478,7 +478,7 @@ export function SimulateurRentabilitePage({ onLogin }: { onLogin?: () => void })
       </section>
 
       {/* ================================================================== */}
-      {/* CTA — découvrir la plateforme                                       */}
+      {/* CTA :découvrir la plateforme                                       */}
       {/* ================================================================== */}
       {(!authed || onLogin) && (
         <section className="border-t border-slate-200 dark:border-slate-800 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950">
@@ -493,7 +493,7 @@ export function SimulateurRentabilitePage({ onLogin }: { onLogin?: () => void })
                 Le simulateur n'est que la&nbsp;surface.
               </h2>
               <p className="text-base t-secondary max-w-xl mx-auto leading-relaxed">
-                ImmoInsight analyse <strong className="t-primary">34 746 communes françaises</strong> avec des
+                Simulateur Locatif analyse <strong className="t-primary">34 746 communes françaises</strong> avec des
                 indicateurs propriétaires pour identifier les opportunités que les autres outils ne voient pas.
               </p>
             </div>
@@ -522,7 +522,7 @@ export function SimulateurRentabilitePage({ onLogin }: { onLogin?: () => void })
                 Accéder à la plateforme complète
                 <ChevronRight size={16} />
               </button>
-              <p className="text-xs t-muted mt-3">Accès sur invitation — données France entière</p>
+              <p className="text-xs t-muted mt-3">Accès sur invitation :données France entière</p>
             </div>
           </div>
         </section>

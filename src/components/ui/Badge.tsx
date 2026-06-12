@@ -61,7 +61,7 @@ export function TransportBadge({ classification, small }: BadgeProps & { classif
 }
 
 export function YieldBadge({ value, small }: BadgeProps & { value: number | null | undefined }) {
-  if (value == null || isNaN(value)) return <span className="t-muted text-xs">—</span>;
+  if (value == null || isNaN(value)) return <span className="t-muted text-xs">-</span>;
   const cls = value >= 8
     ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900'
     : value >= 6

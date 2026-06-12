@@ -129,8 +129,8 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Prop
             </div>
             {!collapsed && (
               <div className="min-w-0">
-                <p className="text-sm font-black t-primary leading-none">ImmoInsight</p>
-                <p className="text-[10px] t-muted mt-0.5">France — 34 746 communes</p>
+                <p className="text-sm font-black t-primary leading-none">Simulateur Locatif</p>
+                <p className="text-[10px] t-muted mt-0.5">France · 34 746 communes</p>
               </div>
             )}
           </div>

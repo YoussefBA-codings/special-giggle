@@ -22,7 +22,7 @@ interface RankingSection {
 
 const SECTIONS: RankingSection[] = [
   {
-    title: 'Top — Score global',
+    title: 'Top ·Score global',
     subtitle: 'Meilleures communes toutes stratégies',
     emoji: '🌟',
     key: 'global',
@@ -31,7 +31,7 @@ const SECTIONS: RankingSection[] = [
     getter: (c) => n(c.globalScore),
   },
   {
-    title: 'Top — Cashflow',
+    title: 'Top ·Cashflow',
     subtitle: 'Fort cashflow locatif',
     emoji: '💰',
     key: 'cashflow',
@@ -40,7 +40,7 @@ const SECTIONS: RankingSection[] = [
     getter: (c) => n(c.cashflowScore),
   },
   {
-    title: 'Top — Débutants',
+    title: 'Top ·Débutants',
     subtitle: 'Profil rassurant pour premier invest.',
     emoji: '🎯',
     key: 'beginner',
@@ -49,7 +49,7 @@ const SECTIONS: RankingSection[] = [
     getter: (c) => n(c.beginnerScore),
   },
   {
-    title: 'Top — Patrimonial',
+    title: 'Top ·Patrimonial',
     subtitle: 'Sécurité et valorisation long terme',
     emoji: '🏛️',
     key: 'patrimonial',
@@ -58,7 +58,7 @@ const SECTIONS: RankingSection[] = [
     getter: (c) => n(c.patrimonialScore),
   },
   {
-    title: 'Top — Long terme',
+    title: 'Top ·Long terme',
     subtitle: 'Potentiel de valorisation élevé',
     emoji: '📈',
     key: 'long-term',
@@ -67,7 +67,7 @@ const SECTIONS: RankingSection[] = [
     getter: (c) => n(c.longTermScore),
   },
   {
-    title: 'Top — Rendement réaliste',
+    title: 'Top ·Rendement réaliste',
     subtitle: '4–10% · données vérifiées · non-trap',
     emoji: '⚡',
     key: 'yield',
@@ -75,7 +75,7 @@ const SECTIONS: RankingSection[] = [
     getter: (c) => n(c.yieldScore),
   },
   {
-    title: 'Top — Demande locative',
+    title: 'Top ·Demande locative',
     subtitle: 'Marché locatif le plus tendu',
     emoji: '🏠',
     key: 'rental-demand',
@@ -84,7 +84,7 @@ const SECTIONS: RankingSection[] = [
     getter: (c) => n(c.rentalDemandScore),
   },
   {
-    title: 'Top — Faible risque',
+    title: 'Top ·Faible risque',
     subtitle: 'Communes les moins risquées',
     emoji: '🛡️',
     key: 'low-risk',

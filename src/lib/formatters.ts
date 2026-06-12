@@ -1,30 +1,30 @@
 export const fmt = {
   eur: (v: number | null | undefined): string => {
-    if (v == null || isNaN(v) || v === 0) return '—';
+    if (v == null || isNaN(v) || v === 0) return '-';
     return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v);
   },
   pct: (v: number | null | undefined, decimals = 2): string => {
-    if (v == null || isNaN(v)) return '—';
+    if (v == null || isNaN(v)) return '-';
     return `${v.toFixed(decimals)}%`;
   },
   num: (v: number | null | undefined): string => {
-    if (v == null || isNaN(v)) return '—';
+    if (v == null || isNaN(v)) return '-';
     return new Intl.NumberFormat('fr-FR').format(v);
   },
   km: (v: number | null | undefined): string => {
-    if (v == null || isNaN(v)) return '—';
+    if (v == null || isNaN(v)) return '-';
     return `${v.toFixed(1)} km`;
   },
   income: (v: number | null | undefined): string => {
-    if (v == null || isNaN(v)) return '—';
+    if (v == null || isNaN(v)) return '-';
     return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v) + '/an';
   },
   score: (v: number | null | undefined): string => {
-    if (v == null || isNaN(v)) return '—';
+    if (v == null || isNaN(v)) return '-';
     return `${Math.round(v)}/100`;
   },
   growth: (v: number | null | undefined): string => {
-    if (v == null || isNaN(v)) return '—';
+    if (v == null || isNaN(v)) return '-';
     const sign = v > 0 ? '+' : '';
     return `${sign}${v.toFixed(1)}%`;
   },

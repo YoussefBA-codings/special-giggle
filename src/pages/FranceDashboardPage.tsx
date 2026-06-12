@@ -58,35 +58,35 @@ function generateNationalInsights(
   if (avgYield > 0) {
     insights.push({
       icon: <TrendingUp className="w-4 h-4 text-emerald-500" />,
-      text: `Rendement brut moyen national estimé à ${fmt.pct(avgYield)} — ${highYieldRegions} région${highYieldRegions > 1 ? 's' : ''} dépassent les 6%`,
+      text: `Rendement brut moyen national estimé à ${fmt.pct(avgYield)} :${highYieldRegions} région${highYieldRegions > 1 ? 's' : ''} dépassent les 6%`,
     });
   }
 
   if (avgPrice > 0) {
     insights.push({
       icon: <Building2 className="w-4 h-4 text-blue-500" />,
-      text: `Prix moyen national de l'appartement : ${fmt.eur(Math.round(avgPrice))} — forte disparité entre régions`,
+      text: `Prix moyen national de l'appartement : ${fmt.eur(Math.round(avgPrice))} :forte disparité entre régions`,
     });
   }
 
   if (avgScore > 0) {
     insights.push({
       icon: <BarChart3 className="w-4 h-4 text-violet-500" />,
-      text: `Score global moyen toutes régions confondues : ${Math.round(avgScore)}/100 — niveau d'opportunité ${avgScore >= 55 ? 'élevé' : avgScore >= 40 ? 'modéré' : 'faible'}`,
+      text: `Score global moyen toutes régions confondues : ${Math.round(avgScore)}/100 :niveau d'opportunité ${avgScore >= 55 ? 'élevé' : avgScore >= 40 ? 'modéré' : 'faible'}`,
     });
   }
 
   if (totalPop > 0) {
     insights.push({
       icon: <Users className="w-4 h-4 text-sky-500" />,
-      text: `${fmt.num(totalPop)} habitants couverts sur ${regions.length} régions analysées — marché locatif profond`,
+      text: `${fmt.num(totalPop)} habitants couverts sur ${regions.length} régions analysées :marché locatif profond`,
     });
   }
 
   if (bottomRegion && bottomRegion.slug !== topRegion?.slug) {
     insights.push({
       icon: <Shield className="w-4 h-4 text-slate-400" />,
-      text: `Écart de ${Math.round((topRegion?.avgGlobalScore ?? 0) - (bottomRegion.avgGlobalScore ?? 0))} points entre la meilleure et la moins bonne région — choisissez bien votre zone`,
+      text: `Écart de ${Math.round((topRegion?.avgGlobalScore ?? 0) - (bottomRegion.avgGlobalScore ?? 0))} points entre la meilleure et la moins bonne région :choisissez bien votre zone`,
     });
   }
 
@@ -312,7 +312,7 @@ export function FranceDashboardPage() {
     const q = DEFAULT_QUALITY;
     Promise.all([
       fetchRegions(),
-      // Tous via fetchCitiesPage — les endpoints /rankings/* retournent max 3-5 résultats
+      // Tous via fetchCitiesPage :les endpoints /rankings/* retournent max 3-5 résultats
       fetchCitiesPage({ minGlobalScore: 50, sortBy: 'globalScore',      sortOrder: 'desc', limit: 5, dataQuality: q }),
       fetchCitiesPage({ minGlobalScore: 40, sortBy: 'beginnerScore',    sortOrder: 'desc', limit: 5, dataQuality: q }),
       fetchCitiesPage({ minYield: 4, maxYield: 10, minGlobalScore: 40, sortBy: 'apartmentYield', sortOrder: 'desc', limit: 5, dataQuality: q }),
@@ -403,7 +403,7 @@ export function FranceDashboardPage() {
     <div className="p-4 sm:p-6 space-y-6 max-w-screen-2xl mx-auto">
 
       {/* ------------------------------------------------------------------ */}
-      {/* 1 — Hero stats bar                                                  */}
+      {/* 1 :Hero stats bar                                                  */}
       {/* ------------------------------------------------------------------ */}
 
       <div>
@@ -449,12 +449,12 @@ export function FranceDashboardPage() {
       </div>
 
       {/* ------------------------------------------------------------------ */}
-      {/* 2 — France snapshot (3 cols)                                        */}
+      {/* 2 :France snapshot (3 cols)                                        */}
       {/* ------------------------------------------------------------------ */}
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
 
-        {/* Left — France map placeholder */}
+        {/* Left :France map placeholder */}
         <div className="card p-5 flex flex-col">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-semibold t-primary flex items-center gap-2">
@@ -492,7 +492,7 @@ export function FranceDashboardPage() {
           </div>
         </div>
 
-        {/* Center — Meilleures régions */}
+        {/* Center :Meilleures régions */}
         <div className="card p-5 flex flex-col">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-semibold t-primary flex items-center gap-2">
@@ -526,11 +526,11 @@ export function FranceDashboardPage() {
           </div>
         </div>
 
-        {/* Right — Classements rapides */}
+        {/* Right :Classements rapides */}
         <div className="card p-5 flex flex-col gap-3">
           <h2 className="text-sm font-semibold t-primary flex items-center gap-2">
             <Target className="w-4 h-4 text-violet-500" />
-            Classements — accès direct
+            Classements :accès direct
           </h2>
           {[
             { path: '/rankings/global',           label: 'Top investissement équilibré', desc: 'Meilleures opportunités France', color: 'text-yellow-500', bg: 'bg-yellow-50 dark:bg-yellow-950/20' },
@@ -553,7 +553,7 @@ export function FranceDashboardPage() {
       </div>
 
       {/* ------------------------------------------------------------------ */}
-      {/* 3 — Top classements nationaux (4 cols)                             */}
+      {/* 3 :Top classements nationaux (4 cols)                             */}
       {/* ------------------------------------------------------------------ */}
 
       <div>
@@ -598,7 +598,7 @@ export function FranceDashboardPage() {
       </div>
 
       {/* ------------------------------------------------------------------ */}
-      {/* 4 — Insights nationaux automatiques                                */}
+      {/* 4 :Insights nationaux automatiques                                */}
       {/* ------------------------------------------------------------------ */}
 
       {insights.length > 0 && (
@@ -622,7 +622,7 @@ export function FranceDashboardPage() {
       )}
 
       {/* ------------------------------------------------------------------ */}
-      {/* 5 — CTA section                                                    */}
+      {/* 5 :CTA section                                                    */}
       {/* ------------------------------------------------------------------ */}
 
       <div>

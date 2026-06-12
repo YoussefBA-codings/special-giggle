@@ -64,7 +64,7 @@ export function LoginPage({ onSuccess }: Props) {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 backdrop-blur mb-4">
               <Building2 size={26} className="text-white" />
             </div>
-            <h1 className="text-xl font-black text-white tracking-tight">ImmoInsight</h1>
+            <h1 className="text-xl font-black text-white tracking-tight">Simulateur Locatif</h1>
             <p className="text-blue-200 text-xs mt-1 font-medium">Analyse immobilière · France entière</p>
           </div>
 

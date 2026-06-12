@@ -83,7 +83,7 @@ function getMetricValue(city: CommuneIndex, metric: MetricKey): number {
 
 function getYieldDisplay(city: CommuneIndex): string {
   const y = city.apartmentYield ?? city.houseYield;
-  return y != null ? fmt.pct(y) : '—';
+  return y != null ? fmt.pct(y) : '-';
 }
 
 function countActive(f: MapFilters): number {
@@ -332,7 +332,7 @@ export function MapPage() {
       circle.bindPopup(
         `<div style="min-width:180px;font-family:system-ui,sans-serif;font-size:13px;">
           <div style="font-weight:700;font-size:14px;margin-bottom:3px;">${city.city}</div>
-          <div style="color:#64748b;margin-bottom:8px;font-size:11px;">Dép. ${city.department} — ${city.departmentName}</div>
+          <div style="color:#64748b;margin-bottom:8px;font-size:11px;">Dép. ${city.department} · ${city.departmentName}</div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
             <span style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:9999px;font-size:11px;font-weight:600;">
               Score ${scoreVal}/100
@@ -475,7 +475,7 @@ export function MapPage() {
                 >
                   <option value="">Tous les départements</option>
                   {visibleDepartments.map((d) => (
-                    <option key={d.code} value={d.code}>{d.code} — {d.name}</option>
+                    <option key={d.code} value={d.code}>{d.code} · {d.name}</option>
                   ))}
                 </select>
               </div>

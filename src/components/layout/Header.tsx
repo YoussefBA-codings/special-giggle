@@ -121,7 +121,7 @@ export function Header({ isDark, onToggleTheme, onOpenMobileSidebar }: Props) {
 
       {/* Mobile title */}
       <div className="flex-1 min-w-0 md:hidden">
-        <p className="text-sm font-bold t-primary truncate">{crumbs[crumbs.length - 1]?.label ?? 'ImmoInsight'}</p>
+        <p className="text-sm font-bold t-primary truncate">{crumbs[crumbs.length - 1]?.label ?? 'Simulateur Locatif'}</p>
       </div>
 
       {/* Quick nav — desktop */}

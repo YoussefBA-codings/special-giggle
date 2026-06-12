@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Building2 } from 'lucide-react';
+import { Building2, Sun, Moon } from 'lucide-react';
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';
 import { LoginPage, isAuthenticated } from './pages/LoginPage';
@@ -32,19 +32,39 @@ function isPublicPath(path: string): boolean {
 // ---------------------------------------------------------------------------
 // Minimal public header (simulateur sans auth)
 // ---------------------------------------------------------------------------
-function PublicHeader({ onLogin }: { onLogin: () => void }) {
+function PublicHeader({
+  onLogin,
+  isDark,
+  onToggleTheme,
+}: {
+  onLogin: () => void;
+  isDark: boolean;
+  onToggleTheme: () => void;
+}) {
   return (
     <header className="header-bg border-b border-slate-200 dark:border-slate-800 px-5 py-3 flex items-center justify-between shrink-0">
       <div className="flex items-center gap-2">
-        <Building2 size={18} className="text-blue-600" />
-        <span className="font-black text-sm t-primary tracking-tight">ImmoInsight</span>
+        <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
+          <Building2 size={13} className="text-white" />
+        </div>
+        <span className="font-black text-sm t-primary tracking-tight">Simulateur Locatif</span>
       </div>
-      <button
-        onClick={onLogin}
-        className="btn-primary text-xs py-1.5 px-4"
-      >
-        Se connecter
-      </button>
+      <div className="flex items-center gap-2">
+        <button
+          onClick={onToggleTheme}
+          className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          aria-label={isDark ? 'Mode clair' : 'Mode sombre'}
+          title={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
+        >
+          {isDark
+            ? <Sun size={15} className="text-amber-400" />
+            : <Moon size={15} className="text-slate-500" />
+          }
+        </button>
+        <button onClick={onLogin} className="btn-primary text-xs py-1.5 px-4">
+          Se connecter
+        </button>
+      </div>
     </header>
   );
 }
@@ -86,7 +106,7 @@ export default function App() {
     }
     return (
       <div className="flex flex-col min-h-screen page-bg">
-        <PublicHeader onLogin={() => setShowLogin(true)} />
+        <PublicHeader onLogin={() => setShowLogin(true)} isDark={isDark} onToggleTheme={toggleTheme} />
         <main className="flex-1 overflow-y-auto">
           <SimulateurRentabilitePage onLogin={() => setShowLogin(true)} />
         </main>
