@@ -111,6 +111,7 @@ function EurInput({
         value={value || ''}
         placeholder={placeholder}
         onChange={(e) => onChange(Math.max(0, parseFloat(e.target.value) || 0))}
+        onWheel={(e) => e.currentTarget.blur()}
         className="input-base w-full text-sm pr-8"
       />
       <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs t-muted pointer-events-none">
@@ -195,6 +196,7 @@ export function SimulateurRentabilitePage() {
                     value={surface || ''}
                     placeholder="50"
                     onChange={(e) => setSurface(parseFloat(e.target.value) || 0)}
+                    onWheel={(e) => e.currentTarget.blur()}
                     className="input-base w-full text-sm"
                   />
                 </Field>
@@ -205,6 +207,7 @@ export function SimulateurRentabilitePage() {
                     value={prixM2 || ''}
                     placeholder="12"
                     onChange={(e) => setPrixM2(parseFloat(e.target.value) || 0)}
+                    onWheel={(e) => e.currentTarget.blur()}
                     className="input-base w-full text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                 </Field>
