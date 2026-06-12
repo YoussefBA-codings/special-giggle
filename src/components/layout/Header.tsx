@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sun, Moon, Menu, ChevronRight, Database } from 'lucide-react';
 import { useLocation, useNavigate, Link } from '../../router';
+import { useOnlineCount } from '../../hooks/useOnlineCount';
 
 // ---------------------------------------------------------------------------
 // Breadcrumb
@@ -74,6 +75,7 @@ interface Props {
 export function Header({ isDark, onToggleTheme, onOpenMobileSidebar }: Props) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const onlineCount = useOnlineCount();
 
   const crumbs = buildBreadcrumbs(pathname);
 
@@ -147,6 +149,20 @@ export function Header({ isDark, onToggleTheme, onOpenMobileSidebar }: Props) {
         <Database size={11} className="text-emerald-500" />
         <span>34 746 communes</span>
       </div>
+
+      {/* Online users */}
+      {onlineCount !== null && onlineCount > 0 && (
+        <div
+          className="hidden md:flex items-center gap-1.5 text-xs shrink-0 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full"
+          title={`${onlineCount} utilisateur${onlineCount > 1 ? 's' : ''} connecté${onlineCount > 1 ? 's' : ''} en ce moment`}
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          </span>
+          <span className="t-muted font-medium">{onlineCount}</span>
+        </div>
+      )}
 
       {/* Theme toggle */}
       <button

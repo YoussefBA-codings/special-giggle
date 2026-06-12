@@ -12,7 +12,7 @@ import type {
 
 export type { CommuneDetail };
 
-const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:4783';
+export const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:4783';
 
 /** Qualité de données acceptée par défaut dans tous les classements et listings publics. */
 export const DEFAULT_QUALITY = 'HIGH';
