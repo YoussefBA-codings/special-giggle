@@ -191,18 +191,20 @@ export function SimulateurRentabilitePage() {
                 <Field label="Superficie (m²)">
                   <input
                     type="number"
-                    min={1} max={500} step={1}
-                    value={surface}
-                    onChange={(e) => setSurface(Math.max(1, parseFloat(e.target.value) || 1))}
+                    step={1}
+                    value={surface || ''}
+                    placeholder="50"
+                    onChange={(e) => setSurface(parseFloat(e.target.value) || 0)}
                     className="input-base w-full text-sm"
                   />
                 </Field>
                 <Field label="Prix de location (€ / m² / mois)">
                   <input
                     type="number"
-                    min={1} max={200} step={0.5}
-                    value={prixM2}
-                    onChange={(e) => setPrixM2(Math.max(0, parseFloat(e.target.value) || 0))}
+                    step={0.5}
+                    value={prixM2 || ''}
+                    placeholder="12"
+                    onChange={(e) => setPrixM2(parseFloat(e.target.value) || 0)}
                     className="input-base w-full text-sm"
                   />
                 </Field>
