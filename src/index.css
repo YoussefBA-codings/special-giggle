@@ -50,6 +50,11 @@ body {
   .header-bg  { @apply bg-white/90 dark:bg-slate-950/90 border-b border-slate-200 dark:border-slate-800 backdrop-blur; }
 }
 
+/* iOS Safari — prevent zoom on input focus (triggered when font-size < 16px) */
+@media (max-width: 767px) {
+  input, select, textarea { font-size: 16px !important; }
+}
+
 /* Leaflet — suppression du carré blanc résiduel des contrôles par défaut */
 .leaflet-control-zoom { display: none !important; }
 .leaflet-top.leaflet-left { background: transparent !important; box-shadow: none !important; }

@@ -88,7 +88,7 @@ export default function App() {
       <div className="flex flex-col min-h-screen page-bg">
         <PublicHeader onLogin={() => setShowLogin(true)} />
         <main className="flex-1 overflow-y-auto">
-          <SimulateurRentabilitePage />
+          <SimulateurRentabilitePage onLogin={() => setShowLogin(true)} />
         </main>
       </div>
     );
